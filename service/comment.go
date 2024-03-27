@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/alifdwt/haiwangram/domain/requests/comment"
-	commentRes "github.com/alifdwt/haiwangram/domain/responses/comment"
+	"github.com/alifdwt/haiwangram/domain/responses"
 	"github.com/alifdwt/haiwangram/mapper"
 	"github.com/alifdwt/haiwangram/pkg/logger"
 	"github.com/alifdwt/haiwangram/repository"
@@ -18,7 +18,7 @@ func NewCommentService(repository repository.CommentRepository, log logger.Logge
 	return &commentService{repository, log, mapper}
 }
 
-func (s *commentService) CreateComment(userId int, request comment.CreateCommentRequest) (*commentRes.CommentResponse, error) {
+func (s *commentService) CreateComment(userId int, request comment.CreateCommentRequest) (*responses.CommentResponse, error) {
 	res, err := s.repository.CreateComment(userId, request)
 	if err != nil {
 		return nil, err
@@ -29,7 +29,7 @@ func (s *commentService) CreateComment(userId int, request comment.CreateComment
 	return mapper, nil
 }
 
-func (s *commentService) GetCommentAll() (*[]commentRes.CommentWithRelationResponse, error) {
+func (s *commentService) GetCommentAll() (*[]responses.CommentWithRelationResponse, error) {
 	res, err := s.repository.GetCommentAll()
 	if err != nil {
 		return nil, err
@@ -40,7 +40,7 @@ func (s *commentService) GetCommentAll() (*[]commentRes.CommentWithRelationRespo
 	return &mapper, nil
 }
 
-func (s *commentService) GetCommentById(commentId int) (*commentRes.CommentWithRelationResponse, error) {
+func (s *commentService) GetCommentById(commentId int) (*responses.CommentWithRelationResponse, error) {
 	res, err := s.repository.GetCommentById(commentId)
 	if err != nil {
 		return nil, err
@@ -51,7 +51,7 @@ func (s *commentService) GetCommentById(commentId int) (*commentRes.CommentWithR
 	return mapper, nil
 }
 
-func (s *commentService) UpdateComment(commentId int, request comment.UpdateCommentRequest) (*commentRes.CommentResponse, error) {
+func (s *commentService) UpdateComment(commentId int, request comment.UpdateCommentRequest) (*responses.CommentResponse, error) {
 	res, err := s.repository.UpdateComment(commentId, request)
 	if err != nil {
 		return nil, err
@@ -62,7 +62,7 @@ func (s *commentService) UpdateComment(commentId int, request comment.UpdateComm
 	return mapper, nil
 }
 
-func (s *commentService) DeleteComment(commentId int) (*commentRes.CommentResponse, error) {
+func (s *commentService) DeleteComment(commentId int) (*responses.CommentResponse, error) {
 	res, err := s.repository.DeleteComment(commentId)
 	if err != nil {
 		return nil, err

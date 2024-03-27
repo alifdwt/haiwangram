@@ -1,7 +1,7 @@
 package mapper
 
 import (
-	"github.com/alifdwt/haiwangram/domain/responses/comment"
+	"github.com/alifdwt/haiwangram/domain/responses"
 	"github.com/alifdwt/haiwangram/models"
 )
 
@@ -12,8 +12,8 @@ func NewCommentMapper() *commentMapper {
 	return &commentMapper{}
 }
 
-func (m *commentMapper) ToCommentResponse(request *models.Comment) *comment.CommentResponse {
-	return &comment.CommentResponse{
+func (m *commentMapper) ToCommentResponse(request *models.Comment) *responses.CommentResponse {
+	return &responses.CommentResponse{
 		ID:      request.ID,
 		Message: request.Message,
 		UserID:  request.UserID,
@@ -21,26 +21,36 @@ func (m *commentMapper) ToCommentResponse(request *models.Comment) *comment.Comm
 	}
 }
 
-func (m *commentMapper) ToCommentWithRelationResponse(request *models.Comment) *comment.CommentWithRelationResponse {
-	return &comment.CommentWithRelationResponse{
+func (m *commentMapper) ToCommentWithRelationResponse(request *models.Comment) *responses.CommentWithRelationResponse {
+	var commentReplies []responses.CommentReplyResponse
+	if request.Replies != nil {
+		for _, reply := range request.Replies {
+			commentReplies = append(commentReplies, *NewCommentReplyMapper().ToCommentReplyResponse(&reply))
+		}
+	} else {
+		commentReplies = []responses.CommentReplyResponse{}
+	}
+
+	return &responses.CommentWithRelationResponse{
 		ID:      request.ID,
 		Message: request.Message,
 		UserID:  request.UserID,
 		PhotoID: request.PhotoID,
 		Photo:   *NewPhotoMapper().ToPhotoResponse(&request.Photo),
 		User:    *NewUserMapper().ToUserResponse(&request.User),
+		Replies: commentReplies,
 	}
 }
 
-func (m *commentMapper) ToCommentWithRelationResponses(requests *[]models.Comment) []comment.CommentWithRelationResponse {
-	var responses []comment.CommentWithRelationResponse
+func (m *commentMapper) ToCommentWithRelationResponses(requests *[]models.Comment) []responses.CommentWithRelationResponse {
+	var commentResponses []responses.CommentWithRelationResponse
 	for _, request := range *requests {
-		responses = append(responses, *m.ToCommentWithRelationResponse(&request))
+		commentResponses = append(commentResponses, *m.ToCommentWithRelationResponse(&request))
 	}
 
-	if len(responses) > 0 {
-		return responses
+	if len(commentResponses) > 0 {
+		return commentResponses
 	}
 
-	return []comment.CommentWithRelationResponse{}
+	return []responses.CommentWithRelationResponse{}
 }

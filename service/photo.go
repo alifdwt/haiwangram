@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/alifdwt/haiwangram/domain/requests/photo"
-	photoRes "github.com/alifdwt/haiwangram/domain/responses/photo"
+	"github.com/alifdwt/haiwangram/domain/responses"
 	"github.com/alifdwt/haiwangram/mapper"
 	"github.com/alifdwt/haiwangram/pkg/logger"
 	"github.com/alifdwt/haiwangram/repository"
@@ -22,7 +22,7 @@ func NewPhotoService(repository repository.PhotoRepository, log logger.Logger, m
 	}
 }
 
-func (s *photoService) CreatePhoto(userId int, request photo.CreatePhotoRequest) (*photoRes.PhotoResponse, error) {
+func (s *photoService) CreatePhoto(userId int, request photo.CreatePhotoRequest) (*responses.PhotoResponse, error) {
 	res, err := s.repository.CreatePhoto(userId, request)
 	if err != nil {
 		return nil, err
@@ -33,7 +33,7 @@ func (s *photoService) CreatePhoto(userId int, request photo.CreatePhotoRequest)
 	return mapper, nil
 }
 
-func (s *photoService) GetPhotoAll() (*[]photoRes.PhotoWithRelationResponse, error) {
+func (s *photoService) GetPhotoAll() (*[]responses.PhotoWithRelationResponse, error) {
 	res, err := s.repository.GetPhotoAll()
 	if err != nil {
 		return nil, err
@@ -44,7 +44,7 @@ func (s *photoService) GetPhotoAll() (*[]photoRes.PhotoWithRelationResponse, err
 	return &mapper, nil
 }
 
-func (s *photoService) GetPhotoById(photoId int) (*photoRes.PhotoWithRelationResponse, error) {
+func (s *photoService) GetPhotoById(photoId int) (*responses.PhotoWithRelationResponse, error) {
 	res, err := s.repository.GetPhotoById(photoId)
 	if err != nil {
 		return nil, err
@@ -55,7 +55,7 @@ func (s *photoService) GetPhotoById(photoId int) (*photoRes.PhotoWithRelationRes
 	return mapper, nil
 }
 
-func (s *photoService) UpdatePhoto(userId int, photoId int, request photo.UpdatePhotoRequest) (*photoRes.PhotoResponse, error) {
+func (s *photoService) UpdatePhoto(userId int, photoId int, request photo.UpdatePhotoRequest) (*responses.PhotoResponse, error) {
 	res, err := s.repository.UpdatePhoto(userId, photoId, request)
 	if err != nil {
 		return nil, err
@@ -66,7 +66,7 @@ func (s *photoService) UpdatePhoto(userId int, photoId int, request photo.Update
 	return mapper, nil
 }
 
-func (s *photoService) DeletePhoto(photoId int) (*photoRes.PhotoResponse, error) {
+func (s *photoService) DeletePhoto(photoId int) (*responses.PhotoResponse, error) {
 	res, err := s.repository.DeletePhoto(photoId)
 	if err != nil {
 		return nil, err

@@ -9,17 +9,6 @@ definitions:
     - email
     - password
     type: object
-  comment.CommentResponse:
-    properties:
-      id:
-        type: integer
-      message:
-        type: string
-      photo_id:
-        type: integer
-      user_id:
-        type: integer
-    type: object
   comment.CreateCommentRequest:
     properties:
       message:
@@ -37,29 +26,74 @@ definitions:
     required:
     - message
     type: object
-  photo.PhotoResponse:
+  commentreply.CreateCommentReplyRequest:
     properties:
-      caption:
+      comment_id:
+        type: integer
+      message:
         type: string
+    required:
+    - comment_id
+    - message
+    type: object
+  commentreply.UpdateCommentReplyRequest:
+    properties:
+      message:
+        type: string
+    required:
+    - message
+    type: object
+  responses.CommentReplyResponse:
+    properties:
+      comment_id:
+        type: integer
       id:
         type: integer
-      photo_url:
-        type: string
-      title:
+      message:
         type: string
       user_id:
         type: integer
     type: object
-  photo.PhotoWithRelationResponse:
+  responses.CommentReplyWithRelationResponse:
     properties:
-      caption:
-        type: string
+      comment:
+        $ref: '#/definitions/responses.CommentResponse'
+      comment_id:
+        type: integer
       id:
         type: integer
-      photo_url:
+      message:
         type: string
-      title:
+      user:
+        $ref: '#/definitions/user.UserResponse'
+      user_id:
+        type: integer
+    type: object
+  responses.CommentResponse:
+    properties:
+      id:
+        type: integer
+      message:
         type: string
+      photo_id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  responses.CommentWithRelationResponse:
+    properties:
+      id:
+        type: integer
+      message:
+        type: string
+      photo:
+        $ref: '#/definitions/responses.PhotoResponse'
+      photo_id:
+        type: integer
+      replies:
+        items:
+          $ref: '#/definitions/responses.CommentReplyResponse'
+        type: array
       user:
         $ref: '#/definitions/user.UserResponse'
       user_id:
@@ -70,6 +104,38 @@ definitions:
       message:
         description: StatusCode int    `json:"statusCode"`
         type: string
+    type: object
+  responses.PhotoResponse:
+    properties:
+      caption:
+        type: string
+      id:
+        type: integer
+      photo_url:
+        type: string
+      title:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  responses.PhotoWithRelationResponse:
+    properties:
+      caption:
+        type: string
+      comments:
+        items:
+          $ref: '#/definitions/responses.CommentResponse'
+        type: array
+      id:
+        type: integer
+      photo_url:
+        type: string
+      title:
+        type: string
+      user:
+        $ref: '#/definitions/user.UserResponse'
+      user_id:
+        type: integer
     type: object
   responses.Token:
     properties:
@@ -194,6 +260,137 @@ paths:
       summary: Register to the HaiwanGram
       tags:
       - users
+  /api/comment-replies:
+    get:
+      consumes:
+      - application/json
+      description: Get all comment reply from the application
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/responses.CommentReplyWithRelationResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get all comment reply
+      tags:
+      - comment reply
+    post:
+      consumes:
+      - application/json
+      description: Create comment reply
+      parameters:
+      - description: comment reply data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/commentreply.CreateCommentReplyRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/responses.CommentReplyResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Create comment reply
+      tags:
+      - comment reply
+  /api/comment-replies/{commentReplyId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete comment reply
+      parameters:
+      - description: Comment Reply ID
+        in: path
+        name: commentReplyId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.CommentReplyResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Delete comment reply
+      tags:
+      - comment reply
+    get:
+      consumes:
+      - application/json
+      description: Get comment reply by id
+      parameters:
+      - description: Comment Reply ID
+        in: path
+        name: commentReplyId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.CommentReplyWithRelationResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get comment reply by id
+      tags:
+      - comment reply
+    put:
+      consumes:
+      - application/json
+      description: Update comment reply
+      parameters:
+      - description: Comment Reply ID
+        in: path
+        name: commentReplyId
+        required: true
+        type: integer
+      - description: comment reply data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/commentreply.UpdateCommentReplyRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.CommentReplyResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Update comment reply
+      tags:
+      - comment reply
   /api/comments:
     get:
       consumes:
@@ -206,7 +403,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/comment.CommentResponse'
+              $ref: '#/definitions/responses.CommentWithRelationResponse'
             type: array
         "400":
           description: Bad Request
@@ -232,7 +429,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/comment.CommentResponse'
+            $ref: '#/definitions/responses.CommentResponse'
         "400":
           description: Bad Request
           schema:
@@ -259,7 +456,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/comment.CommentResponse'
+            $ref: '#/definitions/responses.CommentResponse'
         "400":
           description: Bad Request
           schema:
@@ -285,7 +482,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/comment.CommentResponse'
+            $ref: '#/definitions/responses.CommentWithRelationResponse'
         "400":
           description: Bad Request
           schema:
@@ -315,7 +512,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/comment.CommentResponse'
+            $ref: '#/definitions/responses.CommentResponse'
         "400":
           description: Bad Request
           schema:
@@ -337,7 +534,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/photo.PhotoWithRelationResponse'
+              $ref: '#/definitions/responses.PhotoWithRelationResponse'
             type: array
         "400":
           description: Bad Request
@@ -372,7 +569,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/photo.PhotoResponse'
+            $ref: '#/definitions/responses.PhotoResponse'
         "400":
           description: Bad Request
           schema:
@@ -399,7 +596,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/photo.PhotoResponse'
+            $ref: '#/definitions/responses.PhotoResponse'
         "400":
           description: Bad Request
           schema:
@@ -425,7 +622,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/photo.PhotoWithRelationResponse'
+            $ref: '#/definitions/responses.PhotoWithRelationResponse'
         "400":
           description: Bad Request
           schema:
@@ -464,7 +661,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/photo.PhotoResponse'
+            $ref: '#/definitions/responses.PhotoResponse'
         "400":
           description: Bad Request
           schema:

@@ -30,7 +30,7 @@ func (h *Handler) initPhotoGroup(api *gin.Engine) {
 // @Tags photos
 // @Accept json
 // @Produce json
-// @Success 200 {object} []photo.PhotoWithRelationResponse
+// @Success 200 {object} []responses.PhotoWithRelationResponse
 // @Failure 400 {object} responses.ErrorMessage
 // @Router /api/photos [get]
 func (h *Handler) handlerGetPhotoAll(c *gin.Context) {
@@ -50,7 +50,7 @@ func (h *Handler) handlerGetPhotoAll(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param photoId path int true "Photo ID"
-// @Success 200 {object} photo.PhotoWithRelationResponse
+// @Success 200 {object} responses.PhotoWithRelationResponse
 // @Failure 400 {object} responses.ErrorMessage
 // @Router /api/photos/{photoId} [get]
 func (h *Handler) handlerGetPhotoById(c *gin.Context) {
@@ -79,7 +79,7 @@ func (h *Handler) handlerGetPhotoById(c *gin.Context) {
 // @Param title formData string true "Title"
 // @Param caption formData string true "Caption"
 // @Param image formData file true "Image"
-// @Success 201 {object} photo.PhotoResponse
+// @Success 201 {object} responses.PhotoResponse
 // @Failure 400 {object} responses.ErrorMessage
 // @Router /api/photos [post]
 func (h *Handler) handlerCreatePhoto(c *gin.Context) {
@@ -144,7 +144,7 @@ func (h *Handler) handlerCreatePhoto(c *gin.Context) {
 // @Param caption formData string true "Caption"
 // @Param image formData file true "Image"
 // @Security BearerAuth
-// @Success 200 {object} photo.PhotoResponse
+// @Success 200 {object} responses.PhotoResponse
 // @Failure 400 {object} responses.ErrorMessage
 // @Router /api/photos/{photoId} [put]
 func (h *Handler) handlerUpdatePhoto(c *gin.Context) {
@@ -224,7 +224,7 @@ func (h *Handler) handlerUpdatePhoto(c *gin.Context) {
 // @Produce json
 // @Param photoId path int true "Photo ID"
 // @Security BearerAuth
-// @Success 200 {object} photo.PhotoResponse
+// @Success 200 {object} responses.PhotoResponse
 // @Failure 400 {object} responses.ErrorMessage
 // @Router /api/photos/{photoId} [delete]
 func (h *Handler) handlerDeletePhoto(c *gin.Context) {

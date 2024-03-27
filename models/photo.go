@@ -11,4 +11,5 @@ type Photo struct {
 	User      User      `json:"user"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
+	Comments  []Comment `gorm:"constraint:OnDelete:CASCADE"`
 }

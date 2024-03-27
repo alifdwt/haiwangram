@@ -148,6 +148,210 @@
                 }
             }
         },
+        "/api/comment-replies": {
+            "get": {
+                "description": "Get all comment reply from the application",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment reply"
+                ],
+                "summary": "Get all comment reply",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/responses.CommentReplyWithRelationResponse"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create comment reply",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment reply"
+                ],
+                "summary": "Create comment reply",
+                "parameters": [
+                    {
+                        "description": "comment reply data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/commentreply.CreateCommentReplyRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/responses.CommentReplyResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/comment-replies/{commentReplyId}": {
+            "get": {
+                "description": "Get comment reply by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment reply"
+                ],
+                "summary": "Get comment reply by id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Comment Reply ID",
+                        "name": "commentReplyId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.CommentReplyWithRelationResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Update comment reply",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment reply"
+                ],
+                "summary": "Update comment reply",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Comment Reply ID",
+                        "name": "commentReplyId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "comment reply data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/commentreply.UpdateCommentReplyRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.CommentReplyResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete comment reply",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "comment reply"
+                ],
+                "summary": "Delete comment reply",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Comment Reply ID",
+                        "name": "commentReplyId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.CommentReplyResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
         "/api/comments": {
             "get": {
                 "description": "Get all comments from the application",
@@ -167,7 +371,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/comment.CommentResponse"
+                                "$ref": "#/definitions/responses.CommentWithRelationResponse"
                             }
                         }
                     },
@@ -211,7 +415,7 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/comment.CommentResponse"
+                            "$ref": "#/definitions/responses.CommentResponse"
                         }
                     },
                     "400": {
@@ -249,7 +453,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/comment.CommentResponse"
+                            "$ref": "#/definitions/responses.CommentWithRelationResponse"
                         }
                     },
                     "400": {
@@ -299,7 +503,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/comment.CommentResponse"
+                            "$ref": "#/definitions/responses.CommentResponse"
                         }
                     },
                     "400": {
@@ -340,7 +544,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/comment.CommentResponse"
+                            "$ref": "#/definitions/responses.CommentResponse"
                         }
                     },
                     "400": {
@@ -371,7 +575,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/photo.PhotoWithRelationResponse"
+                                "$ref": "#/definitions/responses.PhotoWithRelationResponse"
                             }
                         }
                     },
@@ -427,7 +631,7 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/photo.PhotoResponse"
+                            "$ref": "#/definitions/responses.PhotoResponse"
                         }
                     },
                     "400": {
@@ -465,7 +669,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/photo.PhotoWithRelationResponse"
+                            "$ref": "#/definitions/responses.PhotoWithRelationResponse"
                         }
                     },
                     "400": {
@@ -527,7 +731,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/photo.PhotoResponse"
+                            "$ref": "#/definitions/responses.PhotoResponse"
                         }
                     },
                     "400": {
@@ -568,7 +772,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/photo.PhotoResponse"
+                            "$ref": "#/definitions/responses.PhotoResponse"
                         }
                     },
                     "400": {
@@ -594,23 +798,6 @@
                 },
                 "password": {
                     "type": "string"
-                }
-            }
-        },
-        "comment.CommentResponse": {
-            "type": "object",
-            "properties": {
-                "id": {
-                    "type": "integer"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "photo_id": {
-                    "type": "integer"
-                },
-                "user_id": {
-                    "type": "integer"
                 }
             }
         },
@@ -640,19 +827,42 @@
                 }
             }
         },
-        "photo.PhotoResponse": {
+        "commentreply.CreateCommentReplyRequest": {
+            "type": "object",
+            "required": [
+                "comment_id",
+                "message"
+            ],
+            "properties": {
+                "comment_id": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "commentreply.UpdateCommentReplyRequest": {
+            "type": "object",
+            "required": [
+                "message"
+            ],
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "responses.CommentReplyResponse": {
             "type": "object",
             "properties": {
-                "caption": {
-                    "type": "string"
+                "comment_id": {
+                    "type": "integer"
                 },
                 "id": {
                     "type": "integer"
                 },
-                "photo_url": {
-                    "type": "string"
-                },
-                "title": {
+                "message": {
                     "type": "string"
                 },
                 "user_id": {
@@ -660,20 +870,66 @@
                 }
             }
         },
-        "photo.PhotoWithRelationResponse": {
+        "responses.CommentReplyWithRelationResponse": {
             "type": "object",
             "properties": {
-                "caption": {
-                    "type": "string"
+                "comment": {
+                    "$ref": "#/definitions/responses.CommentResponse"
+                },
+                "comment_id": {
+                    "type": "integer"
                 },
                 "id": {
                     "type": "integer"
                 },
-                "photo_url": {
+                "message": {
                     "type": "string"
                 },
-                "title": {
+                "user": {
+                    "$ref": "#/definitions/user.UserResponse"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "responses.CommentResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "message": {
                     "type": "string"
+                },
+                "photo_id": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "responses.CommentWithRelationResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "photo": {
+                    "$ref": "#/definitions/responses.PhotoResponse"
+                },
+                "photo_id": {
+                    "type": "integer"
+                },
+                "replies": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responses.CommentReplyResponse"
+                    }
                 },
                 "user": {
                     "$ref": "#/definitions/user.UserResponse"
@@ -689,6 +945,55 @@
                 "message": {
                     "description": "StatusCode int    `json:\"statusCode\"`",
                     "type": "string"
+                }
+            }
+        },
+        "responses.PhotoResponse": {
+            "type": "object",
+            "properties": {
+                "caption": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "photo_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "responses.PhotoWithRelationResponse": {
+            "type": "object",
+            "properties": {
+                "caption": {
+                    "type": "string"
+                },
+                "comments": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responses.CommentResponse"
+                    }
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "photo_url": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "user": {
+                    "$ref": "#/definitions/user.UserResponse"
+                },
+                "user_id": {
+                    "type": "integer"
                 }
             }
         },

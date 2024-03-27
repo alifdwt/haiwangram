@@ -38,7 +38,7 @@ func (r *commentRepository) GetCommentAll() (*[]models.Comment, error) {
 
 	db := r.db.Model(&comments)
 
-	result := db.Debug().Preload("User").Preload("Photo").Find(&comments)
+	result := db.Debug().Preload("User").Preload("Photo").Preload("Replies").Find(&comments)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -51,7 +51,7 @@ func (r *commentRepository) GetCommentById(commentId int) (*models.Comment, erro
 
 	db := r.db.Model(&comment)
 
-	result := db.Debug().Preload("User").Preload("Photo").Where("id = ?", commentId).First(&comment)
+	result := db.Debug().Preload("User").Preload("Photo").Preload("Replies").Where("id = ?", commentId).First(&comment)
 	if result.Error != nil {
 		return nil, result.Error
 	}

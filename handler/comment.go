@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 
@@ -27,7 +28,7 @@ func (h *Handler) initCommentGroup(api *gin.Engine) {
 // @Tags comments
 // @Accept json
 // @Produce json
-// @Success 200 {object} []comment.CommentResponse
+// @Success 200 {object} []responses.CommentWithRelationResponse
 // @Failure 400 {object} responses.ErrorMessage
 // @Router /api/comments [get]
 func (h *Handler) handlerGetCommentAll(c *gin.Context) {
@@ -47,7 +48,7 @@ func (h *Handler) handlerGetCommentAll(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param commentId path int true "Comment ID"
-// @Success 200 {object} comment.CommentResponse
+// @Success 200 {object} responses.CommentWithRelationResponse
 // @Failure 400 {object} responses.ErrorMessage
 // @Router /api/comments/{commentId} [get]
 func (h *Handler) handlerGetCommentById(c *gin.Context) {
@@ -75,7 +76,7 @@ func (h *Handler) handlerGetCommentById(c *gin.Context) {
 // @Produce json
 // @Param data body comment.CreateCommentRequest true "comment data"
 // @Security BearerAuth
-// @Success 201 {object} comment.CommentResponse
+// @Success 201 {object} responses.CommentResponse
 // @Failure 400 {object} responses.ErrorMessage
 // @Router /api/comments [post]
 func (h *Handler) handlerCreateComment(c *gin.Context) {
@@ -115,7 +116,7 @@ func (h *Handler) handlerCreateComment(c *gin.Context) {
 // @Param commentId path int true "Comment ID"
 // @Param data body comment.UpdateCommentRequest true "comment data"
 // @Security BearerAuth
-// @Success 200 {object} comment.CommentResponse
+// @Success 200 {object} responses.CommentResponse
 // @Failure 400 {object} responses.ErrorMessage
 // @Router /api/comments/{commentId} [put]
 func (h *Handler) handlerUpdateComment(c *gin.Context) {
@@ -139,7 +140,7 @@ func (h *Handler) handlerUpdateComment(c *gin.Context) {
 	}
 
 	if commentData.UserID != userId {
-		c.JSON(http.StatusUnauthorized, errorResponse(err))
+		c.JSON(http.StatusUnauthorized, errorResponse(errors.New("you are not allowed to update this comment")))
 		return
 	}
 
@@ -171,7 +172,7 @@ func (h *Handler) handlerUpdateComment(c *gin.Context) {
 // @Produce json
 // @Param commentId path int true "Comment ID"
 // @Security BearerAuth
-// @Success 200 {object} comment.CommentResponse
+// @Success 200 {object} responses.CommentResponse
 // @Failure 400 {object} responses.ErrorMessage
 // @Router /api/comments/{commentId} [delete]
 func (h *Handler) handlerDeleteComment(c *gin.Context) {
@@ -195,7 +196,7 @@ func (h *Handler) handlerDeleteComment(c *gin.Context) {
 	}
 
 	if commentData.UserID != userId {
-		c.JSON(http.StatusUnauthorized, errorResponse(err))
+		c.JSON(http.StatusUnauthorized, errorResponse(errors.New("you are not allowed to delete this comment")))
 		return
 	}
 

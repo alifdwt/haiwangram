@@ -3,6 +3,7 @@ package repository
 import (
 	"github.com/alifdwt/haiwangram/domain/requests/auth"
 	"github.com/alifdwt/haiwangram/domain/requests/comment"
+	commentreply "github.com/alifdwt/haiwangram/domain/requests/comment_reply"
 	"github.com/alifdwt/haiwangram/domain/requests/photo"
 	"github.com/alifdwt/haiwangram/domain/requests/user"
 	"github.com/alifdwt/haiwangram/models"
@@ -30,4 +31,12 @@ type CommentRepository interface {
 	GetCommentById(commentId int) (*models.Comment, error)
 	UpdateComment(commentId int, updatedComment comment.UpdateCommentRequest) (*models.Comment, error)
 	DeleteComment(commentId int) (*models.Comment, error)
+}
+
+type CommentReplyRepository interface {
+	CreateCommentReply(userId int, request commentreply.CreateCommentReplyRequest) (*models.CommentReply, error)
+	GetCommentReplyAll() (*[]models.CommentReply, error)
+	GetCommentReplyById(commentReplyId int) (*models.CommentReply, error)
+	UpdateCommentReply(commentReplyId int, updatedCommentReply commentreply.UpdateCommentReplyRequest) (*models.CommentReply, error)
+	DeleteCommentReply(commentReplyId int) (*models.CommentReply, error)
 }
