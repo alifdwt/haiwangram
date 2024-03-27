@@ -1,0 +1,141 @@
+definitions:
+  auth.LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  responses.ErrorMessage:
+    properties:
+      message:
+        description: StatusCode int    `json:"statusCode"`
+        type: string
+    type: object
+  responses.Token:
+    properties:
+      token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwdXRyYWRld2FudGFyYUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFsaWZkd3QiLCJhZ2UiOjI0LCJpc3MiOiIxNzEwODY5NTgzIiwic3ViIjoiMiIsImV4cCI6MTcxMDg3MTM4MywiaWF0IjoxNzEwODY5NTgzLCJqdGkiOiI3OTQzZDc0Ny04Mzk1LTRlMzktYmZmYS1iM2RiODM0ZGZjNmEifQ.Ngh-kJiAh3_nEmaWP5emX2iZSTF-4IAykH6VC9szyxY
+        type: string
+    type: object
+  user.UserResponse:
+    properties:
+      birth_date:
+        type: string
+      description:
+        type: string
+      email:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: integer
+      profile_image_url:
+        type: string
+      username:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: aputradewantara@gmail.com
+    name: Alif Dewantara
+    url: http://github.com/alifdwt
+  description: This is HaiwanGram API documentation.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: HaiwanGram API
+  version: "1.0"
+paths:
+  /api/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Login a user
+      parameters:
+      - description: data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/auth.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.Token'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Login to the HaiwanGram
+      tags:
+      - users
+  /api/auth/register:
+    post:
+      consumes:
+      - multipart/form-data
+      description: Register a new user
+      parameters:
+      - description: Email
+        in: formData
+        name: email
+        required: true
+        type: string
+      - description: Username
+        in: formData
+        name: username
+        required: true
+        type: string
+      - description: Full Name
+        in: formData
+        name: full_name
+        required: true
+        type: string
+      - description: Birth Date (YYYY-MM-DD)
+        in: formData
+        name: birth_date
+        required: true
+        type: string
+      - description: Profile Image
+        in: formData
+        name: profile_image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/user.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Register to the HaiwanGram
+      tags:
+      - users
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
