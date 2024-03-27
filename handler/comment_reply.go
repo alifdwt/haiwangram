@@ -30,7 +30,7 @@ func (h *Handler) initCommentReplyGroup(api *gin.Engine) {
 // @Produce json
 // @Success 200 {object} []responses.CommentReplyWithRelationResponse
 // @Failure 400 {object} responses.ErrorMessage
-// @Router /api/comment-replies [get]
+// @Router /comment-replies [get]
 func (h *Handler) handlerGetCommentReplyAll(c *gin.Context) {
 	res, err := h.services.CommentReply.GetCommentReplyAll()
 	if err != nil {
@@ -50,7 +50,7 @@ func (h *Handler) handlerGetCommentReplyAll(c *gin.Context) {
 // @Param commentReplyId path int true "Comment Reply ID"
 // @Success 200 {object} responses.CommentReplyWithRelationResponse
 // @Failure 400 {object} responses.ErrorMessage
-// @Router /api/comment-replies/{commentReplyId} [get]
+// @Router /comment-replies/{commentReplyId} [get]
 func (h *Handler) handlerGetCommentReplyById(c *gin.Context) {
 	commentReplyIdStr := c.Param("commentReplyId")
 	commentReplyId, err := strconv.Atoi(commentReplyIdStr)
@@ -78,7 +78,7 @@ func (h *Handler) handlerGetCommentReplyById(c *gin.Context) {
 // @Security BearerAuth
 // @Success 201 {object} responses.CommentReplyResponse
 // @Failure 400 {object} responses.ErrorMessage
-// @Router /api/comment-replies [post]
+// @Router /comment-replies [post]
 func (h *Handler) handlerCreateCommentReply(c *gin.Context) {
 	authPayload := c.MustGet(authorizationPayloadKey).(*token.Payload)
 	userId, err := strconv.Atoi(authPayload.Subject)
@@ -118,7 +118,7 @@ func (h *Handler) handlerCreateCommentReply(c *gin.Context) {
 // @Security BearerAuth
 // @Success 200 {object} responses.CommentReplyResponse
 // @Failure 400 {object} responses.ErrorMessage
-// @Router /api/comment-replies/{commentReplyId} [put]
+// @Router /comment-replies/{commentReplyId} [put]
 func (h *Handler) handlerUpdateCommentReply(c *gin.Context) {
 	commentReplyIdStr := c.Param("commentReplyId")
 	commentReplyId, err := strconv.Atoi(commentReplyIdStr)
@@ -175,7 +175,7 @@ func (h *Handler) handlerUpdateCommentReply(c *gin.Context) {
 // @Security BearerAuth
 // @Success 200 {object} responses.CommentReplyResponse
 // @Failure 400 {object} responses.ErrorMessage
-// @Router /api/comment-replies/{commentReplyId} [delete]
+// @Router /comment-replies/{commentReplyId} [delete]
 func (h *Handler) handlerDeleteCommentReply(c *gin.Context) {
 	commentReplyIdStr := c.Param("commentReplyId")
 	commentReplyId, err := strconv.Atoi(commentReplyIdStr)

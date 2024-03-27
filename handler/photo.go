@@ -13,15 +13,15 @@ import (
 )
 
 func (h *Handler) initPhotoGroup(api *gin.Engine) {
-	auth := api.Group("/api/photos")
+	photo := api.Group("/api/photos")
 
-	auth.GET("/", h.handlerGetPhotoAll)
-	auth.GET("/:photoId", h.handlerGetPhotoById)
+	photo.GET("/", h.handlerGetPhotoAll)
+	photo.GET("/:photoId", h.handlerGetPhotoById)
 
-	auth.Use(authMiddleware(h.tokenMaker))
-	auth.POST("/", h.handlerCreatePhoto)
-	auth.PUT("/:photoId", h.handlerUpdatePhoto)
-	auth.DELETE("/:photoId", h.handlerDeletePhoto)
+	photo.Use(authMiddleware(h.tokenMaker))
+	photo.POST("/", h.handlerCreatePhoto)
+	photo.PUT("/:photoId", h.handlerUpdatePhoto)
+	photo.DELETE("/:photoId", h.handlerDeletePhoto)
 }
 
 // handlerGetPhotoAll function
@@ -32,7 +32,7 @@ func (h *Handler) initPhotoGroup(api *gin.Engine) {
 // @Produce json
 // @Success 200 {object} []responses.PhotoWithRelationResponse
 // @Failure 400 {object} responses.ErrorMessage
-// @Router /api/photos [get]
+// @Router /photos [get]
 func (h *Handler) handlerGetPhotoAll(c *gin.Context) {
 	res, err := h.services.Photo.GetPhotoAll()
 	if err != nil {
@@ -52,7 +52,7 @@ func (h *Handler) handlerGetPhotoAll(c *gin.Context) {
 // @Param photoId path int true "Photo ID"
 // @Success 200 {object} responses.PhotoWithRelationResponse
 // @Failure 400 {object} responses.ErrorMessage
-// @Router /api/photos/{photoId} [get]
+// @Router /photos/{photoId} [get]
 func (h *Handler) handlerGetPhotoById(c *gin.Context) {
 	photoId, err := strconv.Atoi(c.Param("photoId"))
 	if err != nil {
@@ -81,7 +81,7 @@ func (h *Handler) handlerGetPhotoById(c *gin.Context) {
 // @Param image formData file true "Image"
 // @Success 201 {object} responses.PhotoResponse
 // @Failure 400 {object} responses.ErrorMessage
-// @Router /api/photos [post]
+// @Router /photos [post]
 func (h *Handler) handlerCreatePhoto(c *gin.Context) {
 	authPayload := c.MustGet(authorizationPayloadKey).(*token.Payload)
 	userId, err := strconv.Atoi(authPayload.Subject)
@@ -146,7 +146,7 @@ func (h *Handler) handlerCreatePhoto(c *gin.Context) {
 // @Security BearerAuth
 // @Success 200 {object} responses.PhotoResponse
 // @Failure 400 {object} responses.ErrorMessage
-// @Router /api/photos/{photoId} [put]
+// @Router /photos/{photoId} [put]
 func (h *Handler) handlerUpdatePhoto(c *gin.Context) {
 	photoIdStr := c.Param("photoId")
 	photoId, err := strconv.Atoi(photoIdStr)
@@ -226,7 +226,7 @@ func (h *Handler) handlerUpdatePhoto(c *gin.Context) {
 // @Security BearerAuth
 // @Success 200 {object} responses.PhotoResponse
 // @Failure 400 {object} responses.ErrorMessage
-// @Router /api/photos/{photoId} [delete]
+// @Router /photos/{photoId} [delete]
 func (h *Handler) handlerDeletePhoto(c *gin.Context) {
 	photoIdStr := c.Param("photoId")
 	photoId, err := strconv.Atoi(photoIdStr)

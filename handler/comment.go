@@ -11,15 +11,15 @@ import (
 )
 
 func (h *Handler) initCommentGroup(api *gin.Engine) {
-	auth := api.Group("/api/comments")
+	comment := api.Group("/api/comments")
 
-	auth.GET("/", h.handlerGetCommentAll)
-	auth.GET("/:commentId", h.handlerGetCommentById)
+	comment.GET("/", h.handlerGetCommentAll)
+	comment.GET("/:commentId", h.handlerGetCommentById)
 
-	auth.Use(authMiddleware(h.tokenMaker))
-	auth.POST("/", h.handlerCreateComment)
-	auth.PUT("/:commentId", h.handlerUpdateComment)
-	auth.DELETE("/:commentId", h.handlerDeleteComment)
+	comment.Use(authMiddleware(h.tokenMaker))
+	comment.POST("/", h.handlerCreateComment)
+	comment.PUT("/:commentId", h.handlerUpdateComment)
+	comment.DELETE("/:commentId", h.handlerDeleteComment)
 }
 
 // handlerGetCommentAll function
@@ -30,7 +30,7 @@ func (h *Handler) initCommentGroup(api *gin.Engine) {
 // @Produce json
 // @Success 200 {object} []responses.CommentWithRelationResponse
 // @Failure 400 {object} responses.ErrorMessage
-// @Router /api/comments [get]
+// @Router /comments [get]
 func (h *Handler) handlerGetCommentAll(c *gin.Context) {
 	res, err := h.services.Comment.GetCommentAll()
 	if err != nil {
@@ -50,7 +50,7 @@ func (h *Handler) handlerGetCommentAll(c *gin.Context) {
 // @Param commentId path int true "Comment ID"
 // @Success 200 {object} responses.CommentWithRelationResponse
 // @Failure 400 {object} responses.ErrorMessage
-// @Router /api/comments/{commentId} [get]
+// @Router /comments/{commentId} [get]
 func (h *Handler) handlerGetCommentById(c *gin.Context) {
 	commentIdStr := c.Param("commentId")
 	commentId, err := strconv.Atoi(commentIdStr)
@@ -78,7 +78,7 @@ func (h *Handler) handlerGetCommentById(c *gin.Context) {
 // @Security BearerAuth
 // @Success 201 {object} responses.CommentResponse
 // @Failure 400 {object} responses.ErrorMessage
-// @Router /api/comments [post]
+// @Router /comments [post]
 func (h *Handler) handlerCreateComment(c *gin.Context) {
 	authPayload := c.MustGet(authorizationPayloadKey).(*token.Payload)
 	userId, err := strconv.Atoi(authPayload.Subject)
@@ -118,7 +118,7 @@ func (h *Handler) handlerCreateComment(c *gin.Context) {
 // @Security BearerAuth
 // @Success 200 {object} responses.CommentResponse
 // @Failure 400 {object} responses.ErrorMessage
-// @Router /api/comments/{commentId} [put]
+// @Router /comments/{commentId} [put]
 func (h *Handler) handlerUpdateComment(c *gin.Context) {
 	commentId, err := strconv.Atoi(c.Param("commentId"))
 	if err != nil {
@@ -174,7 +174,7 @@ func (h *Handler) handlerUpdateComment(c *gin.Context) {
 // @Security BearerAuth
 // @Success 200 {object} responses.CommentResponse
 // @Failure 400 {object} responses.ErrorMessage
-// @Router /api/comments/{commentId} [delete]
+// @Router /comments/{commentId} [delete]
 func (h *Handler) handlerDeleteComment(c *gin.Context) {
 	commentId, err := strconv.Atoi(c.Param("commentId"))
 	if err != nil {

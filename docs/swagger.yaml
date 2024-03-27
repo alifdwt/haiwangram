@@ -1,3 +1,4 @@
+basePath: /api
 definitions:
   auth.LoginRequest:
     properties:
@@ -172,7 +173,7 @@ info:
   title: HaiwanGram API
   version: "1.0"
 paths:
-  /api/auth/login:
+  /auth/login:
     post:
       consumes:
       - application/json
@@ -201,8 +202,8 @@ paths:
             $ref: '#/definitions/responses.ErrorMessage'
       summary: Login to the HaiwanGram
       tags:
-      - users
-  /api/auth/register:
+      - auth
+  /auth/register:
     post:
       consumes:
       - multipart/form-data
@@ -259,8 +260,8 @@ paths:
             $ref: '#/definitions/responses.ErrorMessage'
       summary: Register to the HaiwanGram
       tags:
-      - users
-  /api/comment-replies:
+      - auth
+  /comment-replies:
     get:
       consumes:
       - application/json
@@ -308,7 +309,7 @@ paths:
       summary: Create comment reply
       tags:
       - comment reply
-  /api/comment-replies/{commentReplyId}:
+  /comment-replies/{commentReplyId}:
     delete:
       consumes:
       - application/json
@@ -391,7 +392,7 @@ paths:
       summary: Update comment reply
       tags:
       - comment reply
-  /api/comments:
+  /comments:
     get:
       consumes:
       - application/json
@@ -439,7 +440,7 @@ paths:
       summary: Create comment
       tags:
       - comments
-  /api/comments/{commentId}:
+  /comments/{commentId}:
     delete:
       consumes:
       - application/json
@@ -522,7 +523,7 @@ paths:
       summary: Update comment
       tags:
       - comments
-  /api/photos:
+  /photos:
     get:
       consumes:
       - application/json
@@ -579,7 +580,7 @@ paths:
       summary: Create photo
       tags:
       - photos
-  /api/photos/{photoId}:
+  /photos/{photoId}:
     delete:
       consumes:
       - application/json
@@ -671,6 +672,27 @@ paths:
       summary: Update photo
       tags:
       - photos
+  /users:
+    delete:
+      consumes:
+      - application/json
+      description: Delete user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Delete user
+      tags:
+      - users
 securityDefinitions:
   BearerAuth:
     in: header

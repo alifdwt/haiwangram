@@ -9,12 +9,22 @@ import (
 )
 
 func (h *Handler) initUserGroup(api *gin.Engine) {
-	user := api.Group("/users")
+	user := api.Group("/api/users")
 
 	user.Use(authMiddleware(h.tokenMaker))
 	user.DELETE("/", h.handlerDeleteUser)
 }
 
+// handlerDeleteUser function
+// @Summary Delete user
+// @Description Delete user
+// @Tags users
+// @Accept json
+// @Produce json
+// @Security BearerAuth
+// @Success 200 {object} user.UserResponse
+// @Failure 400 {object} responses.ErrorMessage
+// @Router /users [delete]
 func (h *Handler) handlerDeleteUser(c *gin.Context) {
 	authPayload := c.MustGet(authorizationPayloadKey).(*token.Payload)
 	userId, err := strconv.Atoi(authPayload.Subject)

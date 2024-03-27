@@ -24,7 +24,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/auth/login": {
+        "/auth/login": {
             "post": {
                 "description": "Login a user",
                 "consumes": [
@@ -34,7 +34,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "users"
+                    "auth"
                 ],
                 "summary": "Login to the HaiwanGram",
                 "parameters": [
@@ -70,7 +70,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/auth/register": {
+        "/auth/register": {
             "post": {
                 "description": "Register a new user",
                 "consumes": [
@@ -80,7 +80,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "users"
+                    "auth"
                 ],
                 "summary": "Register to the HaiwanGram",
                 "parameters": [
@@ -155,7 +155,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/comment-replies": {
+        "/comment-replies": {
             "get": {
                 "description": "Get all comment reply from the application",
                 "consumes": [
@@ -230,7 +230,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/comment-replies/{commentReplyId}": {
+        "/comment-replies/{commentReplyId}": {
             "get": {
                 "description": "Get comment reply by id",
                 "consumes": [
@@ -359,7 +359,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/comments": {
+        "/comments": {
             "get": {
                 "description": "Get all comments from the application",
                 "consumes": [
@@ -434,7 +434,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/comments/{commentId}": {
+        "/comments/{commentId}": {
             "get": {
                 "description": "Get comment by id",
                 "consumes": [
@@ -563,7 +563,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/photos": {
+        "/photos": {
             "get": {
                 "description": "Get all photos from the application",
                 "consumes": [
@@ -650,7 +650,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/photos/{photoId}": {
+        "/photos/{photoId}": {
             "get": {
                 "description": "Get photo by id",
                 "consumes": [
@@ -780,6 +780,40 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/responses.PhotoResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Delete user",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/user.UserResponse"
                         }
                     },
                     "400": {
@@ -1050,7 +1084,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "localhost:8080",
-	BasePath:         "",
+	BasePath:         "/api",
 	Schemes:          []string{},
 	Title:            "HaiwanGram API",
 	Description:      "This is HaiwanGram API documentation.",

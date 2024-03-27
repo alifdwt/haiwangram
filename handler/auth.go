@@ -20,7 +20,7 @@ func (h *Handler) initAuthGroup(api *gin.Engine) {
 // handlerRegister
 // @Summary Register to the HaiwanGram
 // @Description Register a new user
-// @Tags users
+// @Tags auth
 // @Accept multipart/form-data
 // @Produce json
 // @Param email formData string true "Email"
@@ -33,7 +33,7 @@ func (h *Handler) initAuthGroup(api *gin.Engine) {
 // @Success 201 {object} user.UserResponse
 // @Failure 400 {object} responses.ErrorMessage
 // @Failure 500 {object} responses.ErrorMessage
-// @Router /api/auth/register [post]
+// @Router /auth/register [post]
 func (h *Handler) handlerRegister(c *gin.Context) {
 	email := c.Request.FormValue("email")
 	username := c.Request.FormValue("username")
@@ -102,14 +102,14 @@ func (h *Handler) handlerRegister(c *gin.Context) {
 // handlerLogin
 // @Summary Login to the HaiwanGram
 // @Description Login a user
-// @Tags users
+// @Tags auth
 // @Accept json
 // @Produce json
 // @Param data body auth.LoginRequest true "data"
 // @Success 200 {object} responses.Token
 // @Failure 400 {object} responses.ErrorMessage
 // @Failure 500 {object} responses.ErrorMessage
-// @Router /api/auth/login [post]
+// @Router /auth/login [post]
 func (h *Handler) handlerLogin(c *gin.Context) {
 	var body auth.LoginRequest
 
