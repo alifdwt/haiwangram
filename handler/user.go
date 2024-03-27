@@ -17,13 +17,13 @@ func (h *Handler) initUserGroup(api *gin.Engine) {
 
 func (h *Handler) handlerDeleteUser(c *gin.Context) {
 	authPayload := c.MustGet(authorizationPayloadKey).(*token.Payload)
-	userId, err := strconv.ParseInt(authPayload.Subject, 10, 64)
+	userId, err := strconv.Atoi(authPayload.Subject)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, errorResponse(err))
 		return
 	}
 
-	res, err := h.services.User.DeleteUserById(int(userId))
+	res, err := h.services.User.DeleteUserById(userId)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, errorResponse(err))
 		return

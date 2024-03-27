@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/alifdwt/haiwangram/domain/requests/auth"
-	_ "github.com/alifdwt/haiwangram/domain/responses/user"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,12 +23,13 @@ func (h *Handler) initAuthGroup(api *gin.Engine) {
 // @Tags users
 // @Accept multipart/form-data
 // @Produce json
-// @Security BearerAuth
 // @Param email formData string true "Email"
 // @Param username formData string true "Username"
 // @Param full_name formData string true "Full Name"
 // @Param birth_date formData string true "Birth Date (YYYY-MM-DD)"
 // @Param profile_image formData file true "Profile Image"
+// @Param password formData string true "Password"
+// @Param description formData string false "Description"
 // @Success 201 {object} user.UserResponse
 // @Failure 400 {object} responses.ErrorMessage
 // @Failure 500 {object} responses.ErrorMessage
@@ -38,10 +38,22 @@ func (h *Handler) handlerRegister(c *gin.Context) {
 	email := c.Request.FormValue("email")
 	username := c.Request.FormValue("username")
 	fullName := c.Request.FormValue("full_name")
-	birthDate := c.Request.FormValue("birth_date")
+	birthDateString := c.Request.FormValue("birth_date")
 	// profileImageUrl := c.Request.FormValue("profile_image_url")
 	password := c.Request.FormValue("password")
 	description := c.Request.FormValue("description")
+
+	birthDate, err := time.Parse("2006-01-02", birthDateString)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+
+	minimalAge := 13
+	if time.Now().Year()-birthDate.Year() < minimalAge {
+		c.JSON(http.StatusBadRequest, errorResponse(fmt.Errorf("user must be at least %d years old", minimalAge)))
+		return
+	}
 
 	file, err := c.FormFile("profile_image")
 	if err != nil {
@@ -63,20 +75,19 @@ func (h *Handler) handlerRegister(c *gin.Context) {
 		return
 	}
 
-	date, err := time.Parse("2006-01-02", birthDate)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, errorResponse(err))
-		return
-	}
-
 	registerReq := &auth.RegisterRequest{
 		Email:           email,
 		Username:        username,
 		FullName:        fullName,
-		BirthDate:       date,
+		BirthDate:       birthDate,
 		ProfileImageURL: imageUrl,
 		Password:        password,
 		Description:     description,
+	}
+
+	if err := registerReq.Validate(); err != nil {
+		c.JSON(http.StatusBadRequest, errorResponse(err))
+		return
 	}
 
 	res, err := h.services.Auth.Register(registerReq)

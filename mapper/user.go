@@ -18,8 +18,8 @@ func (m *userMapper) ToUserResponse(request *models.User) *user.UserResponse {
 		Email:           request.Email,
 		Username:        request.Username,
 		FullName:        request.FullName,
-		BirthDate:       request.BirthDate,
 		ProfileImageURL: request.ProfileImageURL,
 		Description:     request.Description,
+		// BirthDate:       request.BirthDate,
 	}
 }

@@ -1,11 +1,13 @@
 package mapper
 
 type Mapper struct {
-	UserMapper UserMapping
+	UserMapper  UserMapping
+	PhotoMapper PhotoMapping
 }
 
 func NewMapper() *Mapper {
 	return &Mapper{
-		UserMapper: NewUserMapper(),
+		UserMapper:  NewUserMapper(),
+		PhotoMapper: NewPhotoMapper(),
 	}
 }

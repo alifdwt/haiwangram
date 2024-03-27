@@ -9,6 +9,34 @@ definitions:
     - email
     - password
     type: object
+  photo.PhotoResponse:
+    properties:
+      caption:
+        type: string
+      id:
+        type: integer
+      photo_url:
+        type: string
+      title:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  photo.PhotoWithRelationResponse:
+    properties:
+      caption:
+        type: string
+      id:
+        type: integer
+      photo_url:
+        type: string
+      title:
+        type: string
+      user:
+        $ref: '#/definitions/user.UserResponse'
+      user_id:
+        type: integer
+    type: object
   responses.ErrorMessage:
     properties:
       message:
@@ -113,6 +141,15 @@ paths:
         name: profile_image
         required: true
         type: file
+      - description: Password
+        in: formData
+        name: password
+        required: true
+        type: string
+      - description: Description
+        in: formData
+        name: description
+        type: string
       produces:
       - application/json
       responses:
@@ -128,11 +165,158 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/responses.ErrorMessage'
-      security:
-      - BearerAuth: []
       summary: Register to the HaiwanGram
       tags:
       - users
+  /api/photos:
+    get:
+      consumes:
+      - application/json
+      description: Get all photos from the application
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/photo.PhotoWithRelationResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get all photos
+      tags:
+      - photos
+    post:
+      consumes:
+      - multipart/form-data
+      description: Create photo
+      parameters:
+      - description: Title
+        in: formData
+        name: title
+        required: true
+        type: string
+      - description: Caption
+        in: formData
+        name: caption
+        required: true
+        type: string
+      - description: Image
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/photo.PhotoResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Create photo
+      tags:
+      - photos
+  /api/photos/{photoId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete photo
+      parameters:
+      - description: Photo ID
+        in: path
+        name: photoId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/photo.PhotoResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Delete photo
+      tags:
+      - photos
+    get:
+      consumes:
+      - application/json
+      description: Get photo by id
+      parameters:
+      - description: Photo ID
+        in: path
+        name: photoId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/photo.PhotoWithRelationResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get photo by id
+      tags:
+      - photos
+    put:
+      consumes:
+      - multipart/form-data
+      description: Update photo
+      parameters:
+      - description: Photo ID
+        in: path
+        name: photoId
+        required: true
+        type: integer
+      - description: Title
+        in: formData
+        name: title
+        required: true
+        type: string
+      - description: Caption
+        in: formData
+        name: caption
+        required: true
+        type: string
+      - description: Image
+        in: formData
+        name: image
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/photo.PhotoResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Update photo
+      tags:
+      - photos
 securityDefinitions:
   BearerAuth:
     in: header
