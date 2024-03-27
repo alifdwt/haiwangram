@@ -2,6 +2,7 @@ package repository
 
 import (
 	"github.com/alifdwt/haiwangram/domain/requests/auth"
+	"github.com/alifdwt/haiwangram/domain/requests/comment"
 	"github.com/alifdwt/haiwangram/domain/requests/photo"
 	"github.com/alifdwt/haiwangram/domain/requests/user"
 	"github.com/alifdwt/haiwangram/models"
@@ -21,4 +22,12 @@ type PhotoRepository interface {
 	CreatePhoto(userId int, request photo.CreatePhotoRequest) (*models.Photo, error)
 	UpdatePhoto(userId int, photoId int, updatedPhoto photo.UpdatePhotoRequest) (*models.Photo, error)
 	DeletePhoto(photoId int) (*models.Photo, error)
+}
+
+type CommentRepository interface {
+	CreateComment(userId int, request comment.CreateCommentRequest) (*models.Comment, error)
+	GetCommentAll() (*[]models.Comment, error)
+	GetCommentById(commentId int) (*models.Comment, error)
+	UpdateComment(commentId int, updatedComment comment.UpdateCommentRequest) (*models.Comment, error)
+	DeleteComment(commentId int) (*models.Comment, error)
 }

@@ -10,9 +10,10 @@ import (
 )
 
 type Service struct {
-	Auth  AuthService
-	User  UserService
-	Photo PhotoService
+	Auth    AuthService
+	User    UserService
+	Photo   PhotoService
+	Comment CommentService
 }
 
 type Deps struct {
@@ -26,8 +27,9 @@ type Deps struct {
 
 func NewService(deps Deps) *Service {
 	return &Service{
-		Auth:  NewAuthService(deps.Config, deps.Repository.User, deps.Hashing, deps.Logger, deps.TokenMaker, deps.Mapper.UserMapper),
-		User:  NewUserService(deps.Repository.User, deps.Hashing, deps.Logger, deps.Mapper.UserMapper),
-		Photo: NewPhotoService(deps.Repository.Photo, deps.Logger, deps.Mapper.PhotoMapper),
+		Auth:    NewAuthService(deps.Config, deps.Repository.User, deps.Hashing, deps.Logger, deps.TokenMaker, deps.Mapper.UserMapper),
+		User:    NewUserService(deps.Repository.User, deps.Hashing, deps.Logger, deps.Mapper.UserMapper),
+		Photo:   NewPhotoService(deps.Repository.Photo, deps.Logger, deps.Mapper.PhotoMapper),
+		Comment: NewCommentService(deps.Repository.Comment, deps.Logger, deps.Mapper.CommentMapper),
 	}
 }
