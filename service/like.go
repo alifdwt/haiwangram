@@ -45,7 +45,7 @@ func (s *likeService) GetLikeById(likeId int) (*responses.LikeResponse, error) {
 }
 
 func (s *likeService) DeleteLike(likeId int) (*responses.LikeResponse, error) {
-	res, err := s.repository.GetLikeById(likeId)
+	res, err := s.repository.DeleteLike(likeId)
 	if err != nil {
 		return nil, err
 	}

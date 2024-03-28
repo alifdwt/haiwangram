@@ -69,7 +69,7 @@ func (r *userRepository) GetUserById(id int) (*models.User, error) {
 func (r *userRepository) UpdateUserById(id int, updatedUser *user.UpdateUserRequest) (*models.User, error) {
 	var user models.User
 
-	db := r.db.Model(user)
+	db := r.db.Model(&user)
 
 	checkUserById := db.Debug().Where("id = ?", id).First(&user)
 	if checkUserById.RowsAffected > 1 {
