@@ -15,6 +15,7 @@ type Service struct {
 	Photo        PhotoService
 	Comment      CommentService
 	CommentReply CommentReplyService
+	Like         LikeService
 }
 
 type Deps struct {
@@ -33,5 +34,6 @@ func NewService(deps Deps) *Service {
 		Photo:        NewPhotoService(deps.Repository.Photo, deps.Logger, deps.Mapper.PhotoMapper),
 		Comment:      NewCommentService(deps.Repository.Comment, deps.Logger, deps.Mapper.CommentMapper),
 		CommentReply: NewCommentReplyService(deps.Repository.CommentReply, deps.Logger, deps.Mapper.CommentReplyMapper),
+		Like:         NewLikeService(deps.Repository.Like, deps.Logger, deps.Mapper.LikeMapper),
 	}
 }

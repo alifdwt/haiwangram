@@ -30,7 +30,7 @@ func (h *Handler) initAuthGroup(api *gin.Engine) {
 // @Param profile_image formData file true "Profile Image"
 // @Param password formData string true "Password"
 // @Param description formData string false "Description"
-// @Success 201 {object} user.UserResponse
+// @Success 201 {object} responses.UserResponse
 // @Failure 400 {object} responses.ErrorMessage
 // @Failure 500 {object} responses.ErrorMessage
 // @Router /auth/register [post]

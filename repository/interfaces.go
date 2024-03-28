@@ -4,6 +4,7 @@ import (
 	"github.com/alifdwt/haiwangram/domain/requests/auth"
 	"github.com/alifdwt/haiwangram/domain/requests/comment"
 	commentreply "github.com/alifdwt/haiwangram/domain/requests/comment_reply"
+	"github.com/alifdwt/haiwangram/domain/requests/like"
 	"github.com/alifdwt/haiwangram/domain/requests/photo"
 	"github.com/alifdwt/haiwangram/domain/requests/user"
 	"github.com/alifdwt/haiwangram/models"
@@ -39,4 +40,11 @@ type CommentReplyRepository interface {
 	GetCommentReplyById(commentReplyId int) (*models.CommentReply, error)
 	UpdateCommentReply(commentReplyId int, updatedCommentReply commentreply.UpdateCommentReplyRequest) (*models.CommentReply, error)
 	DeleteCommentReply(commentReplyId int) (*models.CommentReply, error)
+}
+
+type LikeRepository interface {
+	CreateLike(userId int, request like.CreateLikeRequest) (*models.Like, error)
+	// GetLikeAll() (*[]models.Like, error)
+	GetLikeById(likeId int) (*models.Like, error)
+	DeleteLike(likeId int) (*models.Like, error)
 }

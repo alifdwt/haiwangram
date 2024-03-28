@@ -4,20 +4,20 @@ import (
 	"github.com/alifdwt/haiwangram/domain/requests/auth"
 	"github.com/alifdwt/haiwangram/domain/requests/comment"
 	commentreply "github.com/alifdwt/haiwangram/domain/requests/comment_reply"
+	"github.com/alifdwt/haiwangram/domain/requests/like"
 	"github.com/alifdwt/haiwangram/domain/requests/photo"
 	"github.com/alifdwt/haiwangram/domain/requests/user"
 	"github.com/alifdwt/haiwangram/domain/responses"
-	userRes "github.com/alifdwt/haiwangram/domain/responses/user"
 )
 
 type AuthService interface {
-	Register(input *auth.RegisterRequest) (*userRes.UserResponse, error)
+	Register(input *auth.RegisterRequest) (*responses.UserResponse, error)
 	Login(input *auth.LoginRequest) (*responses.Token, error)
 }
 
 type UserService interface {
-	UpdateUserById(id int, request *user.UpdateUserRequest) (*userRes.UserResponse, error)
-	DeleteUserById(id int) (*userRes.UserResponse, error)
+	UpdateUserById(id int, request *user.UpdateUserRequest) (*responses.UserResponse, error)
+	DeleteUserById(id int) (*responses.UserResponse, error)
 }
 
 type PhotoService interface {
@@ -42,4 +42,10 @@ type CommentReplyService interface {
 	GetCommentReplyById(commentReplyId int) (*responses.CommentReplyWithRelationResponse, error)
 	UpdateCommentReply(commentReplyId int, request commentreply.UpdateCommentReplyRequest) (*responses.CommentReplyResponse, error)
 	DeleteCommentReply(commentReplyId int) (*responses.CommentReplyResponse, error)
+}
+
+type LikeService interface {
+	CreateLike(userId int, request like.CreateLikeRequest) (*responses.LikeResponse, error)
+	GetLikeById(likeId int) (*responses.LikeResponse, error)
+	DeleteLike(likeId int) (*responses.LikeResponse, error)
 }

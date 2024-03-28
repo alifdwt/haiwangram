@@ -5,6 +5,7 @@ type Mapper struct {
 	PhotoMapper        PhotoMapping
 	CommentMapper      CommentMapping
 	CommentReplyMapper CommentReplyMapping
+	LikeMapper         LikeMapping
 }
 
 func NewMapper() *Mapper {
@@ -13,5 +14,6 @@ func NewMapper() *Mapper {
 		PhotoMapper:        NewPhotoMapper(),
 		CommentMapper:      NewCommentMapper(),
 		CommentReplyMapper: NewCommentReplyMapper(),
+		LikeMapper:         NewLikeMapper(),
 	}
 }

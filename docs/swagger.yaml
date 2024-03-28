@@ -44,6 +44,13 @@ definitions:
     required:
     - message
     type: object
+  like.CreateLikeRequest:
+    properties:
+      photo_id:
+        type: integer
+    required:
+    - photo_id
+    type: object
   responses.CommentReplyResponse:
     properties:
       comment_id:
@@ -66,7 +73,7 @@ definitions:
       message:
         type: string
       user:
-        $ref: '#/definitions/user.UserResponse'
+        $ref: '#/definitions/responses.UserResponse'
       user_id:
         type: integer
     type: object
@@ -96,7 +103,7 @@ definitions:
           $ref: '#/definitions/responses.CommentReplyResponse'
         type: array
       user:
-        $ref: '#/definitions/user.UserResponse'
+        $ref: '#/definitions/responses.UserResponse'
       user_id:
         type: integer
     type: object
@@ -105,6 +112,15 @@ definitions:
       message:
         description: StatusCode int    `json:"statusCode"`
         type: string
+    type: object
+  responses.LikeResponse:
+    properties:
+      id:
+        type: integer
+      photo_id:
+        type: integer
+      user_id:
+        type: integer
     type: object
   responses.PhotoResponse:
     properties:
@@ -134,7 +150,7 @@ definitions:
       title:
         type: string
       user:
-        $ref: '#/definitions/user.UserResponse'
+        $ref: '#/definitions/responses.UserResponse'
       user_id:
         type: integer
     type: object
@@ -144,7 +160,7 @@ definitions:
         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFwdXRyYWRld2FudGFyYUBnbWFpbC5jb20iLCJ1c2VybmFtZSI6ImFsaWZkd3QiLCJhZ2UiOjI0LCJpc3MiOiIxNzEwODY5NTgzIiwic3ViIjoiMiIsImV4cCI6MTcxMDg3MTM4MywiaWF0IjoxNzEwODY5NTgzLCJqdGkiOiI3OTQzZDc0Ny04Mzk1LTRlMzktYmZmYS1iM2RiODM0ZGZjNmEifQ.Ngh-kJiAh3_nEmaWP5emX2iZSTF-4IAykH6VC9szyxY
         type: string
     type: object
-  user.UserResponse:
+  responses.UserResponse:
     properties:
       description:
         type: string
@@ -249,7 +265,7 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/user.UserResponse'
+            $ref: '#/definitions/responses.UserResponse'
         "400":
           description: Bad Request
           schema:
@@ -523,6 +539,61 @@ paths:
       summary: Update comment
       tags:
       - comments
+  /likes:
+    post:
+      consumes:
+      - application/json
+      description: Create like
+      parameters:
+      - description: like data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/like.CreateLikeRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/responses.LikeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Create like
+      tags:
+      - likes
+  /likes/{likeId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete like by id
+      parameters:
+      - description: Like ID
+        in: path
+        name: likeId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.LikeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Delete like
+      tags:
+      - likes
   /photos:
     get:
       consumes:
@@ -683,7 +754,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/user.UserResponse'
+            $ref: '#/definitions/responses.UserResponse'
         "400":
           description: Bad Request
           schema:

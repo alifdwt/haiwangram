@@ -43,6 +43,7 @@ func (h *Handler) InitApi(router *gin.Engine) {
 	h.initPhotoGroup(router)
 	h.initCommentGroup(router)
 	h.initCommentReplyGroup(router)
+	h.initLikeGroup(router)
 }
 
 func errorResponse(err error) responses.ErrorMessage {

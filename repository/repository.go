@@ -7,6 +7,7 @@ type Repositories struct {
 	Photo        PhotoRepository
 	Comment      CommentRepository
 	CommentReply CommentReplyRepository
+	Like         LikeRepository
 }
 
 func NewRepository(db *gorm.DB) *Repositories {
@@ -15,5 +16,6 @@ func NewRepository(db *gorm.DB) *Repositories {
 		Photo:        NewPhotoRepository(db),
 		Comment:      NewCommentRepository(db),
 		CommentReply: NewCommentReplyRepository(db),
+		Like:         NewLikeRepository(db),
 	}
 }

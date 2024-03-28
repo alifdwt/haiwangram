@@ -6,7 +6,7 @@ import (
 
 	"github.com/alifdwt/haiwangram/domain/requests/auth"
 	"github.com/alifdwt/haiwangram/domain/responses"
-	userRes "github.com/alifdwt/haiwangram/domain/responses/user"
+
 	"github.com/alifdwt/haiwangram/mapper"
 	"github.com/alifdwt/haiwangram/pkg/dotenv"
 	"github.com/alifdwt/haiwangram/pkg/hashing"
@@ -35,7 +35,7 @@ func NewAuthService(config dotenv.Config, user repository.UserRepository, hash h
 	}
 }
 
-func (s *authService) Register(input *auth.RegisterRequest) (*userRes.UserResponse, error) {
+func (s *authService) Register(input *auth.RegisterRequest) (*responses.UserResponse, error) {
 	hashing, err := s.hash.HashPassword(input.Password)
 	if err != nil {
 		return nil, err

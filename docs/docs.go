@@ -137,7 +137,7 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/user.UserResponse"
+                            "$ref": "#/definitions/responses.UserResponse"
                         }
                     },
                     "400": {
@@ -563,6 +563,94 @@ const docTemplate = `{
                 }
             }
         },
+        "/likes": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Create like",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "likes"
+                ],
+                "summary": "Create like",
+                "parameters": [
+                    {
+                        "description": "like data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/like.CreateLikeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/responses.LikeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
+        "/likes/{likeId}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Delete like by id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "likes"
+                ],
+                "summary": "Delete like",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Like ID",
+                        "name": "likeId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.LikeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
+        },
         "/photos": {
             "get": {
                 "description": "Get all photos from the application",
@@ -813,7 +901,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/user.UserResponse"
+                            "$ref": "#/definitions/responses.UserResponse"
                         }
                     },
                     "400": {
@@ -894,6 +982,17 @@ const docTemplate = `{
                 }
             }
         },
+        "like.CreateLikeRequest": {
+            "type": "object",
+            "required": [
+                "photo_id"
+            ],
+            "properties": {
+                "photo_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "responses.CommentReplyResponse": {
             "type": "object",
             "properties": {
@@ -927,7 +1026,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "user": {
-                    "$ref": "#/definitions/user.UserResponse"
+                    "$ref": "#/definitions/responses.UserResponse"
                 },
                 "user_id": {
                     "type": "integer"
@@ -973,7 +1072,7 @@ const docTemplate = `{
                     }
                 },
                 "user": {
-                    "$ref": "#/definitions/user.UserResponse"
+                    "$ref": "#/definitions/responses.UserResponse"
                 },
                 "user_id": {
                     "type": "integer"
@@ -986,6 +1085,20 @@ const docTemplate = `{
                 "message": {
                     "description": "StatusCode int    ` + "`" + `json:\"statusCode\"` + "`" + `",
                     "type": "string"
+                }
+            }
+        },
+        "responses.LikeResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "photo_id": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -1031,7 +1144,7 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "user": {
-                    "$ref": "#/definitions/user.UserResponse"
+                    "$ref": "#/definitions/responses.UserResponse"
                 },
                 "user_id": {
                     "type": "integer"
@@ -1047,7 +1160,7 @@ const docTemplate = `{
                 }
             }
         },
-        "user.UserResponse": {
+        "responses.UserResponse": {
             "type": "object",
             "properties": {
                 "description": {

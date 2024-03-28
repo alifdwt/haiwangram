@@ -1,7 +1,7 @@
 package mapper
 
 import (
-	"github.com/alifdwt/haiwangram/domain/responses/user"
+	"github.com/alifdwt/haiwangram/domain/responses"
 	"github.com/alifdwt/haiwangram/models"
 )
 
@@ -12,8 +12,8 @@ func NewUserMapper() *userMapper {
 	return &userMapper{}
 }
 
-func (m *userMapper) ToUserResponse(request *models.User) *user.UserResponse {
-	return &user.UserResponse{
+func (m *userMapper) ToUserResponse(request *models.User) *responses.UserResponse {
+	return &responses.UserResponse{
 		ID:              request.ID,
 		Email:           request.Email,
 		Username:        request.Username,

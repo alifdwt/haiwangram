@@ -2,12 +2,11 @@ package mapper
 
 import (
 	"github.com/alifdwt/haiwangram/domain/responses"
-	"github.com/alifdwt/haiwangram/domain/responses/user"
 	"github.com/alifdwt/haiwangram/models"
 )
 
 type UserMapping interface {
-	ToUserResponse(request *models.User) *user.UserResponse
+	ToUserResponse(request *models.User) *responses.UserResponse
 }
 
 type PhotoMapping interface {
@@ -26,4 +25,10 @@ type CommentReplyMapping interface {
 	ToCommentReplyResponse(request *models.CommentReply) *responses.CommentReplyResponse
 	ToCommentReplyWithRelationResponse(request *models.CommentReply) *responses.CommentReplyWithRelationResponse
 	ToCommentReplyWithRelationResponses(requests *[]models.CommentReply) []responses.CommentReplyWithRelationResponse
+}
+
+type LikeMapping interface {
+	ToLikeResponse(request *models.Like) *responses.LikeResponse
+	ToLikeWithRelationResponse(request *models.Like) *responses.LikeWithRelationResponse
+	ToLikeWithRelationResponses(requests *[]models.Like) []responses.LikeWithRelationResponse
 }

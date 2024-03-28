@@ -22,7 +22,7 @@ func (h *Handler) initUserGroup(api *gin.Engine) {
 // @Accept json
 // @Produce json
 // @Security BearerAuth
-// @Success 200 {object} user.UserResponse
+// @Success 200 {object} responses.UserResponse
 // @Failure 400 {object} responses.ErrorMessage
 // @Router /users [delete]
 func (h *Handler) handlerDeleteUser(c *gin.Context) {

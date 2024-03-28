@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/alifdwt/haiwangram/domain/requests/user"
-	userRes "github.com/alifdwt/haiwangram/domain/responses/user"
+	"github.com/alifdwt/haiwangram/domain/responses"
 	"github.com/alifdwt/haiwangram/mapper"
 	"github.com/alifdwt/haiwangram/pkg/hashing"
 	"github.com/alifdwt/haiwangram/pkg/logger"
@@ -25,7 +25,7 @@ func NewUserService(user repository.UserRepository, hash hashing.Hashing, log lo
 	}
 }
 
-func (s *userService) UpdateUserById(id int, request *user.UpdateUserRequest) (*userRes.UserResponse, error) {
+func (s *userService) UpdateUserById(id int, request *user.UpdateUserRequest) (*responses.UserResponse, error) {
 	res, err := s.Repository.UpdateUserById(id, request)
 	if err != nil {
 		return nil, err
@@ -36,7 +36,7 @@ func (s *userService) UpdateUserById(id int, request *user.UpdateUserRequest) (*
 	return mapper, nil
 }
 
-func (s *userService) DeleteUserById(id int) (*userRes.UserResponse, error) {
+func (s *userService) DeleteUserById(id int) (*responses.UserResponse, error) {
 	res, err := s.Repository.DeleteUserById(id)
 	if err != nil {
 		return nil, err
