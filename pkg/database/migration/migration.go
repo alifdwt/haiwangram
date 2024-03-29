@@ -21,3 +21,20 @@ func RunMigration(db *gorm.DB) error {
 
 	return err
 }
+
+func DropTable(db *gorm.DB) error {
+	err := db.Migrator().DropTable(
+		&models.User{},
+		&models.Photo{},
+		&models.Comment{},
+		&models.CommentReply{},
+		&models.Like{},
+		&models.SocialMedia{},
+	)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return err
+}

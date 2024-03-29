@@ -1,21 +1,17 @@
-package service
+package repository
 
 import (
 	"os"
 	"testing"
 
-	"github.com/alifdwt/haiwangram/mapper"
 	"github.com/alifdwt/haiwangram/pkg/database/migration"
 	"github.com/alifdwt/haiwangram/pkg/database/postgres"
 	"github.com/alifdwt/haiwangram/pkg/dotenv"
-	"github.com/alifdwt/haiwangram/pkg/hashing"
 	"github.com/alifdwt/haiwangram/pkg/logger"
-	"github.com/alifdwt/haiwangram/pkg/token"
-	"github.com/alifdwt/haiwangram/repository"
 	"go.uber.org/zap"
 )
 
-var testService *Service
+var testRepository *Repositories
 
 func TestMain(m *testing.M) {
 	log, err := logger.NewLogger()
@@ -45,26 +41,9 @@ func TestMain(m *testing.M) {
 		log.Error("Error while running migration", zap.Error(err))
 	}
 
-	hashing := hashing.NewHashingPassword()
-	repository := repository.NewRepository(db)
+	repository := NewRepository(db)
 
-	tokenMaker, err := token.NewJWTMaker(config.TOKEN_SYMETRIC_KEY)
-	if err != nil {
-		log.Error("Error while creating token maker", zap.Error(err))
-	}
-
-	mapper := mapper.NewMapper()
-
-	service := NewService(Deps{
-		Config:     config,
-		Repository: repository,
-		Hashing:    *hashing,
-		TokenMaker: tokenMaker,
-		Logger:     *log,
-		Mapper:     *mapper,
-	})
-
-	testService = service
+	testRepository = repository
 
 	exitCode := m.Run()
 
