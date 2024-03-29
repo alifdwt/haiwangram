@@ -45,5 +45,12 @@ func TestMain(m *testing.M) {
 
 	testRepository = repository
 
-	os.Exit(m.Run())
+	exitCode := m.Run()
+
+	err = migration.DropTable(db)
+	if err != nil {
+		log.Error("Error while running migration", zap.Error(err))
+	}
+
+	os.Exit(exitCode)
 }
