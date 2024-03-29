@@ -59,8 +59,8 @@ func (r *userRepository) GetUserById(id int) (*models.User, error) {
 	db := r.db.Model(user)
 
 	checkUserById := db.Debug().Where("id = ?", id).First(&user)
-	if checkUserById.RowsAffected < 0 {
-		return &user, errors.New("user not found")
+	if checkUserById.Error != nil {
+		return nil, checkUserById.Error
 	}
 
 	return &user, nil
@@ -72,8 +72,8 @@ func (r *userRepository) UpdateUserById(id int, updatedUser *user.UpdateUserRequ
 	db := r.db.Model(&user)
 
 	checkUserById := db.Debug().Where("id = ?", id).First(&user)
-	if checkUserById.RowsAffected > 1 {
-		return &user, errors.New("user not found")
+	if checkUserById.Error != nil {
+		return nil, checkUserById.Error
 	}
 
 	user.Username = updatedUser.Username
