@@ -47,8 +47,17 @@ func TestCreatePhoto(t *testing.T) {
 }
 
 func TestGetPhotoAll(t *testing.T) {
-	_, err := testService.Photo.GetPhotoAll()
+	for i := 0; i < 10; i++ {
+		createRandomPhoto(t)
+	}
+
+	photos, err := testService.Photo.GetPhotoAll()
 	require.NoError(t, err)
+	require.NotEmpty(t, photos)
+
+	for _, photo := range *photos {
+		require.NotEmpty(t, photo)
+	}
 }
 
 func TestGetPhotoById(t *testing.T) {

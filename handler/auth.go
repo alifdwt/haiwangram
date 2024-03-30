@@ -39,7 +39,6 @@ func (h *Handler) handlerRegister(c *gin.Context) {
 	username := c.Request.FormValue("username")
 	fullName := c.Request.FormValue("full_name")
 	birthDateString := c.Request.FormValue("birth_date")
-	// profileImageUrl := c.Request.FormValue("profile_image_url")
 	password := c.Request.FormValue("password")
 	description := c.Request.FormValue("description")
 

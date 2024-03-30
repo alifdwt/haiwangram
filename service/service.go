@@ -9,6 +9,15 @@ import (
 	"github.com/alifdwt/haiwangram/repository"
 )
 
+type Store interface {
+	AuthService
+	UserService
+	PhotoService
+	CommentService
+	CommentReplyService
+	LikeService
+}
+
 type Service struct {
 	Auth         AuthService
 	User         UserService

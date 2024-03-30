@@ -764,6 +764,53 @@ paths:
       summary: Delete user
       tags:
       - users
+    get:
+      consumes:
+      - application/json
+      description: Get logged in user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Get logged in user
+      tags:
+      - users
+  /users/random/{count}:
+    get:
+      consumes:
+      - application/json
+      description: Get random user
+      parameters:
+      - description: Count
+        in: path
+        name: count
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/responses.UserResponse'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get random user
+      tags:
+      - users
 securityDefinitions:
   BearerAuth:
     in: header

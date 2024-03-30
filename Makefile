@@ -5,6 +5,6 @@ server:
 	go run main.go
 
 frontend:
-	cd web/frontend && npm install && npm run build
+	cd web/haiwangram && npm install && npm run dev
 
 .PHONY: test server frontend

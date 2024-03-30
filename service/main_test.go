@@ -68,10 +68,10 @@ func TestMain(m *testing.M) {
 
 	exitCode := m.Run()
 
-	err = migration.DropTable(db)
-	if err != nil {
-		log.Error("Error while running migration", zap.Error(err))
-	}
+	// err = migration.DropTable(db)
+	// if err != nil {
+	// 	log.Error("Error while running migration", zap.Error(err))
+	// }
 
 	os.Exit(exitCode)
 }

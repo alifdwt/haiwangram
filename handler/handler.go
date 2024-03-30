@@ -5,6 +5,7 @@ import (
 	"github.com/alifdwt/haiwangram/pkg/cloudinary"
 	"github.com/alifdwt/haiwangram/pkg/token"
 	"github.com/alifdwt/haiwangram/service"
+	"github.com/gin-contrib/cors"
 
 	"github.com/gin-gonic/gin"
 
@@ -31,6 +32,14 @@ func (h *Handler) Init() *gin.Engine {
 	router := gin.Default()
 
 	router.GET("docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
+	// cors
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "PATCH"},
+		AllowHeaders:     []string{"Content-Type", "Authorization"},
+		AllowCredentials: true,
+	}))
 
 	h.InitApi(router)
 

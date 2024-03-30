@@ -7,6 +7,7 @@ import (
 
 type UserMapping interface {
 	ToUserResponse(request *models.User) *responses.UserResponse
+	ToUserResponses(requests *[]models.User) []responses.UserResponse
 }
 
 type PhotoMapping interface {

@@ -42,8 +42,17 @@ func TestCreateCommentReply(t *testing.T) {
 }
 
 func TestGetCommentReplyAll(t *testing.T) {
-	_, err := testService.CommentReply.GetCommentReplyAll()
+	for i := 0; i < 10; i++ {
+		createRandomCommentReply(t)
+	}
+
+	comments, err := testService.CommentReply.GetCommentReplyAll()
 	require.NoError(t, err)
+	require.NotEmpty(t, comments)
+
+	for _, comment := range *comments {
+		require.NotEmpty(t, comment)
+	}
 }
 
 func TestGetCommentReplyById(t *testing.T) {

@@ -18,6 +18,8 @@ type AuthService interface {
 type UserService interface {
 	UpdateUserById(id int, request *user.UpdateUserRequest) (*responses.UserResponse, error)
 	DeleteUserById(id int) (*responses.UserResponse, error)
+	GetRandomUser(count int) (*[]responses.UserResponse, error)
+	GetUserByEmail(email string) (*responses.UserResponse, error)
 }
 
 type PhotoService interface {

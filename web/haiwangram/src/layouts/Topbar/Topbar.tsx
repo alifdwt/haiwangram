@@ -4,6 +4,9 @@ import {
   Button,
   Center,
   Flex,
+  Input,
+  InputGroup,
+  InputLeftElement,
   Menu,
   MenuButton,
   MenuDivider,
@@ -14,25 +17,49 @@ import {
   useColorMode,
   //   useDisclosure,
 } from "@chakra-ui/react";
-import { MoonIcon, PawPrintIcon, SunIcon } from "lucide-react";
+import {
+  BellIcon,
+  MoonIcon,
+  PawPrintIcon,
+  SearchIcon,
+  SunIcon,
+} from "lucide-react";
 
-export default function Navbar() {
+export default function Topbar() {
   const { colorMode, toggleColorMode } = useColorMode();
   //   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
-      <Box borderBottom={"4px"} borderBottomColor={"red.400"} px={4}>
+      <Box px={4} bg={"white"} _dark={{ bg: "gray.700" }}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <Flex alignItems={"center"} gap={2}>
-            <PawPrintIcon size={32} />
+            <Box bg={"primary"} borderRadius={"lg"} color={"white"} p={2}>
+              <PawPrintIcon />
+            </Box>
             <Text fontSize="2xl" fontWeight="bold">
               HaiwanGram
             </Text>
           </Flex>
 
+          <InputGroup maxW={"450px"}>
+            <InputLeftElement pointerEvents="none" color={"gray.500"}>
+              <SearchIcon />
+            </InputLeftElement>
+            <Input
+              placeholder="Search..."
+              bg={"gray.100"}
+              rounded={"lg"}
+              border={"none"}
+              _dark={{ bg: "gray.600" }}
+            />
+          </InputGroup>
+
           <Flex alignItems={"center"}>
-            <Stack direction={"row"} spacing={7}>
+            <Stack direction={"row"} spacing={4}>
+              <Button>
+                <BellIcon />
+              </Button>
               <Button onClick={toggleColorMode}>
                 {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
               </Button>
@@ -48,6 +75,7 @@ export default function Navbar() {
                   <Avatar
                     name="Ryan Florence"
                     src="https://bit.ly/ryan-florence"
+                    size={"md"}
                   />
                 </MenuButton>
                 <MenuList alignItems={"center"}>

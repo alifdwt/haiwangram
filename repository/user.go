@@ -108,3 +108,16 @@ func (r *userRepository) DeleteUserById(id int) (*models.User, error) {
 
 	return res, nil
 }
+
+func (r *userRepository) GetRandomUser(count int) (*[]models.User, error) {
+	var users []models.User
+
+	db := r.db.Model(&users)
+
+	result := db.Debug().Order("RANDOM()").Limit(count).Find(&users)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &users, nil
+}

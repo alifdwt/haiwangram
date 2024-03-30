@@ -25,6 +25,17 @@ func NewUserService(user repository.UserRepository, hash hashing.Hashing, log lo
 	}
 }
 
+func (s *userService) GetUserByEmail(email string) (*responses.UserResponse, error) {
+	res, err := s.Repository.GetUserByEmail(email)
+	if err != nil {
+		return nil, err
+	}
+
+	mapper := s.mapper.ToUserResponse(res)
+
+	return mapper, nil
+}
+
 func (s *userService) UpdateUserById(id int, request *user.UpdateUserRequest) (*responses.UserResponse, error) {
 	res, err := s.Repository.UpdateUserById(id, request)
 	if err != nil {
@@ -45,4 +56,15 @@ func (s *userService) DeleteUserById(id int) (*responses.UserResponse, error) {
 	mapper := s.mapper.ToUserResponse(res)
 
 	return mapper, nil
+}
+
+func (s *userService) GetRandomUser(count int) (*[]responses.UserResponse, error) {
+	res, err := s.Repository.GetRandomUser(count)
+	if err != nil {
+		return nil, err
+	}
+
+	mapper := s.mapper.ToUserResponses(res)
+
+	return &mapper, nil
 }

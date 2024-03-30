@@ -66,3 +66,20 @@ func TestDeleteUserById(t *testing.T) {
 	_, err = testService.User.DeleteUserById(0)
 	require.Error(t, err)
 }
+
+func TestGetRandomUser(t *testing.T) {
+	for i := 0; i < 10; i++ {
+		createRandomUser(t)
+	}
+
+	count := util.RandomInt(1, 10)
+	res, err := testService.User.GetRandomUser(int(count))
+	require.NoError(t, err)
+	require.NotEmpty(t, res)
+
+	require.Equal(t, int(count), len(*res))
+
+	for _, user := range *res {
+		require.NotEmpty(t, user)
+	}
+}

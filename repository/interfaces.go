@@ -16,6 +16,7 @@ type UserRepository interface {
 	CreateUser(registerReq *auth.RegisterRequest) (*models.User, error)
 	UpdateUserById(id int, updatedUser *user.UpdateUserRequest) (*models.User, error)
 	DeleteUserById(id int) (*models.User, error)
+	GetRandomUser(count int) (*[]models.User, error)
 }
 
 type PhotoRepository interface {
