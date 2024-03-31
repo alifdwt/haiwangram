@@ -18,6 +18,7 @@ import {
   //   useDisclosure,
 } from "@chakra-ui/react";
 import {
+  ArrowDown,
   BellIcon,
   MoonIcon,
   PawPrintIcon,
@@ -68,15 +69,19 @@ export default function Topbar() {
                 <MenuButton
                   as={Button}
                   rounded={"full"}
-                  variant={"link"}
+                  variant={"ghost"}
                   cursor={"pointer"}
                   minW={0}
                 >
-                  <Avatar
-                    name="Ryan Florence"
-                    src="https://bit.ly/ryan-florence"
-                    size={"md"}
-                  />
+                  <Flex gap={2} alignItems={"center"}>
+                    <Avatar
+                      name="Ryan Florence"
+                      src="https://bit.ly/ryan-florence"
+                      size={"sm"}
+                    />
+                    <Text>Ryan Florence</Text>
+                    <ArrowDown />
+                  </Flex>
                 </MenuButton>
                 <MenuList alignItems={"center"}>
                   <br />

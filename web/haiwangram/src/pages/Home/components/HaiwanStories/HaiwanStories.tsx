@@ -106,8 +106,9 @@ export default function HaiwanStories() {
       _dark={{ bg: "gray.700" }}
       p={4}
       borderRadius={"xl"}
-      overflowX={"auto"}
+      overflowX={"scroll"}
       gap={4}
+      css={{ "&::-webkit-scrollbar": { display: "none" } }}
     >
       <Box>
         <Box
@@ -142,8 +143,8 @@ export default function HaiwanStories() {
               size={"lg"}
             />
           </Box>
-          <Text textAlign={"center"} fontSize={"xs"} mt={2}>
-            {user.full_name}
+          <Text textAlign={"center"} fontSize={"xs"} mt={2} noOfLines={1}>
+            {user.username}
           </Text>
         </Box>
       ))}

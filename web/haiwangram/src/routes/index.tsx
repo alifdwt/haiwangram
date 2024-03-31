@@ -7,15 +7,20 @@ import {
 import Layout from "../layouts";
 import { Heading } from "@chakra-ui/react";
 import Home from "@/pages/Home/Home";
+import Landing from "@/pages/Landing/Landing";
+import Search from "@/pages/Search/Search";
+import Follow from "@/pages/Follow/Follow";
 
 export default function Routes() {
-  const accessToken = true;
+  const accessToken = false;
 
   return (
     <BrowserRouter>
       <RouterRoutes>
-        <Route element={accessToken ? <Layout /> : <Navigate to="/login" />}>
+        <Route element={accessToken ? <Layout /> : <Landing />}>
           <Route index element={<Home />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/follow" element={<Follow />} />
         </Route>
         <Route
           path="/login"

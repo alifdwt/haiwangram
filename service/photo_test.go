@@ -13,7 +13,7 @@ func createRandomPhoto(t *testing.T) responses.PhotoResponse {
 	user := createRandomUser(t)
 	title := util.RandomWords(7)
 	caption := util.RandomWords(15)
-	photoUrl := util.RandomProfilePictureUrl()
+	photoUrl := util.RandomPhotoUrl()
 	userId := user.ID
 
 	photoArg := &photo.CreatePhotoRequest{
@@ -85,7 +85,7 @@ func TestUpdatePhoto(t *testing.T) {
 
 	title := util.RandomWords(5)
 	caption := util.RandomWords(10)
-	photoUrl := util.RandomProfilePictureUrl()
+	photoUrl := util.RandomPhotoUrl()
 
 	photoArg := &photo.UpdatePhotoRequest{
 		Title:    title,

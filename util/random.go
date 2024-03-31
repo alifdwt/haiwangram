@@ -59,6 +59,10 @@ func RandomProfilePictureUrl() string {
 	return fmt.Sprintf("https://randomuser.me/api/portraits/%s/%d.jpg", gender, RandomInt(0, 99))
 }
 
+func RandomPhotoUrl() string {
+	return fmt.Sprintf("https://picsum.photos/id/%d/1280/720", RandomInt(0, 100))
+}
+
 func RandomWords(wordCount int) string {
 	return loremipsum.New().Words(wordCount)
 }
