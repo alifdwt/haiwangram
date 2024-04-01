@@ -34,12 +34,12 @@ func (r *photoRepository) CreatePhoto(userId int, request photo.CreatePhotoReque
 	return &photoModel, nil
 }
 
-func (r *photoRepository) GetPhotoAll() (*[]models.Photo, error) {
+func (r *photoRepository) GetPhotoAll(limit int) (*[]models.Photo, error) {
 	var photos []models.Photo
 
 	db := r.db.Model(&photos)
 
-	result := db.Debug().Preload("User").Preload("Comments").Preload("Likes").Order("created_at DESC").Find(&photos)
+	result := db.Debug().Preload("User").Preload("Comments").Preload("Likes").Order("created_at DESC").Limit(limit).Find(&photos)
 	if result.Error != nil {
 		return nil, result.Error
 	}

@@ -606,9 +606,7 @@ const docTemplate = `{
                         }
                     }
                 }
-            }
-        },
-        "/likes/{likeId}": {
+            },
             "delete": {
                 "security": [
                     {
@@ -628,11 +626,13 @@ const docTemplate = `{
                 "summary": "Delete like",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Like ID",
-                        "name": "likeId",
-                        "in": "path",
-                        "required": true
+                        "description": "like data",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/like.DeleteLikeRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -664,6 +664,14 @@ const docTemplate = `{
                     "photos"
                 ],
                 "summary": "Get all photos",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -1056,6 +1064,17 @@ const docTemplate = `{
             }
         },
         "like.CreateLikeRequest": {
+            "type": "object",
+            "required": [
+                "photo_id"
+            ],
+            "properties": {
+                "photo_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "like.DeleteLikeRequest": {
             "type": "object",
             "required": [
                 "photo_id"

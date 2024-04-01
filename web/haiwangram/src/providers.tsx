@@ -35,7 +35,18 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <QueryClientProvider client={queryClient}>
-          <ChakraProvider theme={chakraTheme}>{children}</ChakraProvider>
+          <ChakraProvider
+            theme={chakraTheme}
+            toastOptions={{
+              defaultOptions: {
+                position: "bottom-right",
+                duration: 3000,
+                isClosable: true,
+              },
+            }}
+          >
+            {children}
+          </ChakraProvider>
         </QueryClientProvider>
       </PersistGate>
     </Provider>

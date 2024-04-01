@@ -30,8 +30,6 @@ func (m *photoMapper) ToPhotoWithRelationResponse(request *models.Photo) *respon
 		for _, comment := range request.Comments {
 			comments = append(comments, *NewCommentMapper().ToCommentResponse(&comment))
 		}
-	} else {
-		comments = []responses.CommentResponse{}
 	}
 
 	var likes []responses.LikeResponse
@@ -39,8 +37,6 @@ func (m *photoMapper) ToPhotoWithRelationResponse(request *models.Photo) *respon
 		for _, like := range request.Likes {
 			likes = append(likes, *NewLikeMapper().ToLikeResponse(&like))
 		}
-	} else {
-		likes = []responses.LikeResponse{}
 	}
 
 	return &responses.PhotoWithRelationResponse{

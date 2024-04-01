@@ -51,7 +51,7 @@ func TestGetPhotoAll(t *testing.T) {
 		createRandomPhoto(t)
 	}
 
-	photos, err := testService.Photo.GetPhotoAll()
+	photos, err := testService.Photo.GetPhotoAll(10)
 	require.NoError(t, err)
 	require.NotEmpty(t, photos)
 

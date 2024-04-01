@@ -57,7 +57,7 @@ func TestGetLikeById(t *testing.T) {
 func TestDeleteLike(t *testing.T) {
 	like1 := createRandomLike(t)
 
-	_, err := testRepository.Like.DeleteLike(like1.ID)
+	_, err := testRepository.Like.DeleteLike(like1.PhotoID, like1.UserID)
 	require.NoError(t, err)
 
 	res, err := testRepository.Like.GetLikeById(like1.ID)
@@ -65,6 +65,6 @@ func TestDeleteLike(t *testing.T) {
 	require.Error(t, err)
 
 	// Error not found
-	_, err = testRepository.Like.DeleteLike(0)
+	_, err = testRepository.Like.DeleteLike(0, 0)
 	require.Error(t, err)
 }

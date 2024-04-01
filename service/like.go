@@ -44,8 +44,8 @@ func (s *likeService) GetLikeById(likeId int) (*responses.LikeResponse, error) {
 	return mapper, nil
 }
 
-func (s *likeService) DeleteLike(likeId int) (*responses.LikeResponse, error) {
-	res, err := s.repository.DeleteLike(likeId)
+func (s *likeService) DeleteLike(photoId int, userId int) (*responses.LikeResponse, error) {
+	res, err := s.repository.DeleteLike(photoId, userId)
 	if err != nil {
 		return nil, err
 	}

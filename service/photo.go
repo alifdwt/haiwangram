@@ -33,8 +33,8 @@ func (s *photoService) CreatePhoto(userId int, request photo.CreatePhotoRequest)
 	return mapper, nil
 }
 
-func (s *photoService) GetPhotoAll() (*[]responses.PhotoWithRelationResponse, error) {
-	res, err := s.repository.GetPhotoAll()
+func (s *photoService) GetPhotoAll(limit int) (*[]responses.PhotoWithRelationResponse, error) {
+	res, err := s.repository.GetPhotoAll(limit)
 	if err != nil {
 		return nil, err
 	}

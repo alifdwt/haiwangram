@@ -24,7 +24,7 @@ type UserService interface {
 
 type PhotoService interface {
 	CreatePhoto(userId int, request photo.CreatePhotoRequest) (*responses.PhotoResponse, error)
-	GetPhotoAll() (*[]responses.PhotoWithRelationResponse, error)
+	GetPhotoAll(limit int) (*[]responses.PhotoWithRelationResponse, error)
 	GetPhotoById(photoId int) (*responses.PhotoWithRelationResponse, error)
 	UpdatePhoto(userId int, photoId int, request photo.UpdatePhotoRequest) (*responses.PhotoResponse, error)
 	DeletePhoto(photoId int) (*responses.PhotoResponse, error)
@@ -49,5 +49,5 @@ type CommentReplyService interface {
 type LikeService interface {
 	CreateLike(userId int, request like.CreateLikeRequest) (*responses.LikeResponse, error)
 	GetLikeById(likeId int) (*responses.LikeResponse, error)
-	DeleteLike(likeId int) (*responses.LikeResponse, error)
+	DeleteLike(photoId int, userId int) (*responses.LikeResponse, error)
 }

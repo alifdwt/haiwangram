@@ -51,6 +51,13 @@ definitions:
     required:
     - photo_id
     type: object
+  like.DeleteLikeRequest:
+    properties:
+      photo_id:
+        type: integer
+    required:
+    - photo_id
+    type: object
   responses.CommentReplyResponse:
     properties:
       comment_id:
@@ -552,6 +559,33 @@ paths:
       tags:
       - comments
   /likes:
+    delete:
+      consumes:
+      - application/json
+      description: Delete like by id
+      parameters:
+      - description: like data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/like.DeleteLikeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.LikeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Delete like
+      tags:
+      - likes
     post:
       consumes:
       - application/json
@@ -579,38 +613,16 @@ paths:
       summary: Create like
       tags:
       - likes
-  /likes/{likeId}:
-    delete:
-      consumes:
-      - application/json
-      description: Delete like by id
-      parameters:
-      - description: Like ID
-        in: path
-        name: likeId
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/responses.LikeResponse'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/responses.ErrorMessage'
-      security:
-      - BearerAuth: []
-      summary: Delete like
-      tags:
-      - likes
   /photos:
     get:
       consumes:
       - application/json
       description: Get all photos from the application
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
       produces:
       - application/json
       responses:

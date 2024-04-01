@@ -10,10 +10,12 @@ import axiosFetch from "@/config/axiosFetch";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { getUser, logout } from "@/slices/user/userSlice";
+import useToast from "@/hooks/useToast";
 
 export default function Layout() {
   const { accessToken } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
+  const toast = useToast();
 
   const { isError } = useQuery({
     queryKey: ["user"],
@@ -28,7 +30,10 @@ export default function Layout() {
     },
   });
 
-  if (isError) dispatch(logout());
+  if (isError) {
+    dispatch(logout());
+    toast("Error", "Sesi anda telah habis, silahkan login kembali", "error");
+  }
 
   return (
     <Box

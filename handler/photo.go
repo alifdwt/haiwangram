@@ -30,11 +30,18 @@ func (h *Handler) initPhotoGroup(api *gin.Engine) {
 // @Tags photos
 // @Accept json
 // @Produce json
+// @Param limit query int false "Limit"
 // @Success 200 {object} []responses.PhotoWithRelationResponse
 // @Failure 400 {object} responses.ErrorMessage
 // @Router /photos [get]
 func (h *Handler) handlerGetPhotoAll(c *gin.Context) {
-	res, err := h.services.Photo.GetPhotoAll()
+	limit, err := strconv.Atoi(c.Query("limit"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, errorResponse(err))
+		return
+	}
+
+	res, err := h.services.Photo.GetPhotoAll(limit)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, errorResponse(err))
 		return

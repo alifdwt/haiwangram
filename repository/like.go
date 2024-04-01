@@ -58,12 +58,12 @@ func (r *likeRepository) GetLikeById(likeId int) (*models.Like, error) {
 	return &like, nil
 }
 
-func (r *likeRepository) DeleteLike(likeId int) (*models.Like, error) {
+func (r *likeRepository) DeleteLike(photoId int, userId int) (*models.Like, error) {
 	var like models.Like
 
 	db := r.db.Model(&like)
 
-	checkLikeById := db.Debug().Where("id = ?", likeId).First(&like)
+	checkLikeById := db.Debug().Where("photo_id = ? AND user_id = ?", photoId, userId).First(&like)
 	if checkLikeById.RowsAffected < 1 {
 		return &like, errors.New("like not found")
 	}

@@ -11,15 +11,16 @@ import {
   Skeleton,
   Text,
 } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
+import { useIntersection } from "@mantine/hooks";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import {
   BookmarkIcon,
   EllipsisVerticalIcon,
-  HeartIcon,
   MessageCircleIcon,
 } from "lucide-react";
-import React from "react";
+import React, { LegacyRef, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import LikeButton from "./components/LikeButton";
 
 // const posts = [
 //   {
@@ -96,7 +97,13 @@ import { useDispatch, useSelector } from "react-redux";
 //   },
 // ];
 
-function PostContainer({ children }: { children: React.ReactNode }) {
+function PostContainer({
+  children,
+  ref,
+}: {
+  children: React.ReactNode;
+  ref?: LegacyRef<HTMLDivElement>;
+}) {
   return (
     <Flex
       bg={"white"}
@@ -105,6 +112,7 @@ function PostContainer({ children }: { children: React.ReactNode }) {
       flexDir={"column"}
       gap={4}
       _dark={{ bg: "gray.700" }}
+      ref={ref}
     >
       {children}
     </Flex>
@@ -172,18 +180,20 @@ function PostBody({
 }
 
 function PostFooter({
+  postId,
   likeCount,
+  isLiked,
   commentCount,
 }: {
+  postId: number;
   likeCount: number;
+  isLiked: boolean;
   commentCount: number;
 }) {
   return (
     <Flex justifyContent={"space-between"}>
       <Flex>
-        <Button leftIcon={<HeartIcon />} variant={"ghost"} color={"gray"}>
-          {likeCount} {likeCount === 1 ? "Like" : "Likes"}
-        </Button>
+        <LikeButton likeCount={likeCount} isLiked={isLiked} postId={postId} />
         <Button
           leftIcon={<MessageCircleIcon />}
           variant={"ghost"}
@@ -202,15 +212,40 @@ function PostFooter({
 export default function Posts() {
   const dispatch = useDispatch();
   const { posts } = useSelector((state: RootState) => state.post);
+  const { user } = useSelector((state: RootState) => state.user);
+  const userId = Number(user?.id);
 
-  const { isLoading } = useQuery({
-    queryKey: ["posts"],
-    queryFn: async () => {
-      const { data } = await axiosFetch.get("/photos/");
-      dispatch(getPosts(data));
-      return data;
-    },
+  const { data, fetchNextPage, isFetchingNextPage, isLoading } =
+    // @ts-expect-error next-line
+    useInfiniteQuery({
+      queryKey: ["posts"],
+      queryFn: async ({ pageParam = 1 }) => {
+        const { data } = await axiosFetch.get(
+          `/photos/?limit=${pageParam * 4}`
+        );
+        dispatch(getPosts(data));
+        return data;
+      },
+      getNextPageParam: (_, pages) => {
+        return pages.length + 1;
+      },
+      initialData: {
+        pages: [posts],
+        pageParams: [1],
+      },
+    });
+
+  const lastPostRef = useRef<HTMLElement>(null);
+  const { ref, entry } = useIntersection({
+    root: lastPostRef.current,
+    threshold: 1,
   });
+
+  useEffect(() => {
+    if (entry?.isIntersecting) fetchNextPage();
+  }, [entry, fetchNextPage]);
+
+  const _posts = data?.pages.flatMap((page) => page);
 
   if (isLoading) {
     return (
@@ -222,25 +257,60 @@ export default function Posts() {
 
   return (
     <>
-      {posts.map((post) => (
-        <PostContainer key={post.id}>
-          <PostHeader
-            profile_image_url={post.user?.profile_image_url as string}
-            full_name={post.user?.full_name as string}
-            username={post.user?.username as string}
-            created_at={post.created_at as string}
-          />
-          <PostBody
-            title={post.title}
-            caption={post.caption}
-            photo_url={post.photo_url}
-          />
-          <PostFooter
-            likeCount={post.likes?.length as number}
-            commentCount={post.comments?.length as number}
-          />
-        </PostContainer>
-      ))}
+      {_posts?.map((post, i) => {
+        const isLiked = post.likes?.some((like) => like.user_id === userId);
+        if (i === _posts.length - 1)
+          return (
+            <PostContainer key={post.id} ref={ref}>
+              <PostHeader
+                profile_image_url={post.user?.profile_image_url as string}
+                full_name={post.user?.full_name as string}
+                username={post.user?.username as string}
+                created_at={post.created_at as string}
+              />
+              <PostBody
+                title={post.title}
+                caption={post.caption}
+                photo_url={post.photo_url}
+              />
+              <PostFooter
+                postId={post.id}
+                isLiked={isLiked!}
+                likeCount={post.likes?.length as number}
+                commentCount={post.comments?.length as number}
+              />
+            </PostContainer>
+          );
+
+        return (
+          <PostContainer key={post.id}>
+            <PostHeader
+              profile_image_url={post.user?.profile_image_url as string}
+              full_name={post.user?.full_name as string}
+              username={post.user?.username as string}
+              created_at={post.created_at as string}
+            />
+            <PostBody
+              title={post.title}
+              caption={post.caption}
+              photo_url={post.photo_url}
+            />
+            <PostFooter
+              postId={post.id}
+              isLiked={isLiked!}
+              likeCount={post.likes?.length as number}
+              commentCount={post.comments?.length as number}
+            />
+          </PostContainer>
+        );
+      })}
+      <Button
+        onClick={() => fetchNextPage()}
+        isLoading={isFetchingNextPage}
+        loadingText="Memuat..."
+      >
+        Load More
+      </Button>
     </>
   );
 }

@@ -20,7 +20,7 @@ type UserRepository interface {
 }
 
 type PhotoRepository interface {
-	GetPhotoAll() (*[]models.Photo, error)
+	GetPhotoAll(limit int) (*[]models.Photo, error)
 	GetPhotoById(photoId int) (*models.Photo, error)
 	CreatePhoto(userId int, request photo.CreatePhotoRequest) (*models.Photo, error)
 	UpdatePhoto(userId int, photoId int, updatedPhoto photo.UpdatePhotoRequest) (*models.Photo, error)
@@ -47,5 +47,5 @@ type LikeRepository interface {
 	CreateLike(userId int, request like.CreateLikeRequest) (*models.Like, error)
 	// GetLikeAll() (*[]models.Like, error)
 	GetLikeById(likeId int) (*models.Like, error)
-	DeleteLike(likeId int) (*models.Like, error)
+	DeleteLike(photoId int, userId int) (*models.Like, error)
 }

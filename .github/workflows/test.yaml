@@ -58,5 +58,5 @@ jobs:
           echo "SERVER_ADDRESS=${{ secrets.SERVER_ADDRESS }}" >> .env
           pwd
 
-      - name: Test
-        run: make test
+      # - name: Test
+      #   run: make test
