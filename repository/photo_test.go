@@ -73,6 +73,11 @@ func TestGetPhotoById(t *testing.T) {
 	require.Equal(t, photo.PhotoURL, res.PhotoURL)
 	require.Equal(t, photo.UserID, res.UserID)
 
+	// require.NotEmpty(t, res.Comments)
+	// require.NotEmpty(t, res.Likes)
+	require.NotEmpty(t, res.CreatedAt)
+	require.NotEmpty(t, res.UpdatedAt)
+
 	require.NotZero(t, res.ID)
 
 	// Error not found

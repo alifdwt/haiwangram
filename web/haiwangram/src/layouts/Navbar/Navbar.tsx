@@ -65,10 +65,14 @@ export default function Navbar() {
                 ? navigate(`/${item.path}`)
                 : navigate(item.path)
             }
-            _hover={{ textDecoration: "none", bg: "primary", color: "white" }}
+            _hover={{
+              textDecoration: "none",
+              bg: "primary.700",
+              color: "white",
+            }}
             borderRadius={"lg"}
             py={3}
-            bg={currentUrl === item.path ? "primary" : "transparent"}
+            bg={currentUrl === item.path ? "primary.700" : "transparent"}
             color={currentUrl === item.path ? "white" : "black"}
             _dark={{ color: "white" }}
           >
@@ -103,7 +107,7 @@ export default function Navbar() {
               //   Math.random() * 10 + 1
               // )}.jpg`}
               size={"sm"}
-              bg={"primary"}
+              bg={"primary.700"}
             />
             <Text fontWeight={"bold"} noOfLines={1}>
               {item.name}

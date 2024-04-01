@@ -1181,6 +1181,9 @@ const docTemplate = `{
                 "caption": {
                     "type": "string"
                 },
+                "created_at": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
                 },
@@ -1188,6 +1191,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "title": {
+                    "type": "string"
+                },
+                "updated_at": {
                     "type": "string"
                 },
                 "user_id": {
@@ -1207,13 +1213,25 @@ const docTemplate = `{
                         "$ref": "#/definitions/responses.CommentResponse"
                     }
                 },
+                "created_at": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
+                },
+                "likes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responses.LikeResponse"
+                    }
                 },
                 "photo_url": {
                     "type": "string"
                 },
                 "title": {
+                    "type": "string"
+                },
+                "updated_at": {
                     "type": "string"
                 },
                 "user": {

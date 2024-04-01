@@ -25,17 +25,20 @@ import {
   SearchIcon,
   SunIcon,
 } from "lucide-react";
+import { LogOutButton } from "./components/LogButton";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 export default function Topbar() {
   const { colorMode, toggleColorMode } = useColorMode();
-  //   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user } = useSelector((state: RootState) => state.user);
 
   return (
     <>
       <Box px={4} bg={"white"} _dark={{ bg: "gray.700" }}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <Flex alignItems={"center"} gap={2}>
-            <Box bg={"primary"} borderRadius={"lg"} color={"white"} p={2}>
+            <Box bg={"primary.700"} borderRadius={"lg"} color={"white"} p={2}>
               <PawPrintIcon />
             </Box>
             <Text fontSize="2xl" fontWeight="bold">
@@ -75,11 +78,18 @@ export default function Topbar() {
                 >
                   <Flex gap={2} alignItems={"center"}>
                     <Avatar
-                      name="Ryan Florence"
-                      src="https://bit.ly/ryan-florence"
+                      name={user?.full_name}
+                      src={user?.profile_image_url}
                       size={"sm"}
                     />
-                    <Text>Ryan Florence</Text>
+                    <Text>
+                      {user?.full_name?.split(" ")[0]}{" "}
+                      {
+                        user?.full_name?.split(" ")[
+                          user.full_name?.split(" ").length - 1
+                        ]
+                      }
+                    </Text>
                     <ArrowDown />
                   </Flex>
                 </MenuButton>
@@ -87,21 +97,23 @@ export default function Topbar() {
                   <br />
                   <Center>
                     <Avatar
-                      name="Ryan Florence"
-                      src="https://bit.ly/ryan-florence"
+                      name={user?.full_name}
+                      src={user?.profile_image_url}
                       size="xl"
                       cursor="pointer"
                     />
                   </Center>
                   <br />
                   <Center>
-                    <p>Ryan Florence</p>
+                    <p>{user?.full_name}</p>
                   </Center>
                   <br />
                   <MenuDivider />
                   <MenuItem>Karyamu</MenuItem>
                   <MenuItem>Pengaturan Akun</MenuItem>
-                  <MenuItem>Keluar</MenuItem>
+                  <MenuItem>
+                    <LogOutButton />
+                  </MenuItem>
                 </MenuList>
               </Menu>
             </Stack>

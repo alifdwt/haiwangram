@@ -10,9 +10,11 @@ import Home from "@/pages/Home/Home";
 import Landing from "@/pages/Landing/Landing";
 import Search from "@/pages/Search/Search";
 import Follow from "@/pages/Follow/Follow";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
 
 export default function Routes() {
-  const accessToken = false;
+  const { accessToken } = useSelector((state: RootState) => state.user);
 
   return (
     <BrowserRouter>

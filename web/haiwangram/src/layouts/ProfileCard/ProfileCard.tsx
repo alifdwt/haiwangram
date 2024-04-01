@@ -1,4 +1,6 @@
+import { RootState } from "@/store";
 import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
 
 const userData = {
   followers: 75,
@@ -7,6 +9,8 @@ const userData = {
 };
 
 export default function ProfileCard() {
+  const { user } = useSelector((state: RootState) => state.user);
+
   return (
     <Box
       bg={"white"}
@@ -18,16 +22,16 @@ export default function ProfileCard() {
       <Box bg={"gray.100"} _dark={{ bg: "gray.600" }} borderRadius={"lg"} p={4}>
         <Flex alignItems={"center"}>
           <Avatar
-            name="Dan Abrahmov"
-            src="https://randomuser.me/api/portraits/men/59.jpg"
+            name={user?.full_name}
+            src={user?.profile_image_url}
             size={"md"}
           />
           <Box ml={4}>
             <Text fontWeight={"bold"} fontSize={"lg"}>
-              Dan Abrahmov
+              {user?.full_name}
             </Text>
             <Text color={"gray.500"} _dark={{ color: "white" }}>
-              @dan_abrahmov
+              @{user?.username}
             </Text>
           </Box>
         </Flex>

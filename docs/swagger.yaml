@@ -126,11 +126,15 @@ definitions:
     properties:
       caption:
         type: string
+      created_at:
+        type: string
       id:
         type: integer
       photo_url:
         type: string
       title:
+        type: string
+      updated_at:
         type: string
       user_id:
         type: integer
@@ -143,11 +147,19 @@ definitions:
         items:
           $ref: '#/definitions/responses.CommentResponse'
         type: array
+      created_at:
+        type: string
       id:
         type: integer
+      likes:
+        items:
+          $ref: '#/definitions/responses.LikeResponse'
+        type: array
       photo_url:
         type: string
       title:
+        type: string
+      updated_at:
         type: string
       user:
         $ref: '#/definitions/responses.UserResponse'

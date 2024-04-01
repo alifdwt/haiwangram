@@ -1,5 +1,12 @@
 import {
+  Box,
   Button,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  Input,
+  InputGroup,
+  InputRightElement,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -9,16 +16,27 @@ import {
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
+import useLogin from "./hooks/useLogin";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 export default function Login() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    handleSubmit,
+    register,
+    errors,
+    onSubmit,
+    mutation,
+    showPassword,
+    handleShowPassword,
+  } = useLogin();
 
   return (
     <>
       <Button
         onClick={onOpen}
         variant={"outline"}
-        _hover={{ bg: "primary", color: "white" }}
+        _hover={{ bg: "primary.700", color: "white" }}
         w={"md"}
       >
         Masuk
@@ -30,12 +48,61 @@ export default function Login() {
           <ModalHeader>Masuk</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat,
-            nostrum? Delectus explicabo aliquid maiores ipsam autem ab,
-            recusandae laborum ipsum facilis error cum quaerat dolore doloribus
-            sapiente nemo consequuntur corrupti quod, dicta natus. Laborum error
-            fugit voluptatem eos, illo expedita voluptates, harum autem
-            veritatis rem, nostrum aut eligendi omnis facilis!
+            <Box as={"form"} onSubmit={handleSubmit(onSubmit)}>
+              <Flex direction={"column"} gap={2}>
+                <FormControl isInvalid={Boolean(errors.email)}>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Email"
+                    {...register("email", {
+                      required: "Email is required!",
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: "invalid email address!",
+                      },
+                    })}
+                  />
+                  <FormErrorMessage>
+                    {errors.email && errors.email.message?.toString()}
+                  </FormErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={Boolean(errors.password)}>
+                  <InputGroup>
+                    <Input
+                      id="password"
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Password"
+                      {...register("password", {
+                        required: "Password is required!",
+                        minLength: {
+                          value: 6,
+                          message: "Password must be at least 6 characters!",
+                        },
+                      })}
+                    />
+                    <InputRightElement>
+                      <Button size="sm" onClick={handleShowPassword}>
+                        {showPassword ? <EyeIcon /> : <EyeOffIcon />}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                  <FormErrorMessage>
+                    {errors.password && errors.password.message?.toString()}
+                  </FormErrorMessage>
+                </FormControl>
+                <Button
+                  type="submit"
+                  bg={"primary.700"}
+                  color={"white"}
+                  _hover={{ bg: "primary.700", color: "white" }}
+                  isLoading={mutation.isPending}
+                  loadingText={"Memproses"}
+                >
+                  Masuk
+                </Button>
+              </Flex>
+            </Box>
           </ModalBody>
 
           <ModalFooter>

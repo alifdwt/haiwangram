@@ -134,7 +134,7 @@ export default function HaiwanStories() {
           <Box
             borderRadius={"full"}
             border={"2px"}
-            borderColor={"primary"}
+            borderColor={"primary.700"}
             p={0.5}
           >
             <Avatar

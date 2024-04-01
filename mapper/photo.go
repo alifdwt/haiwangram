@@ -14,11 +14,13 @@ func NewPhotoMapper() *photoMapper {
 
 func (m *photoMapper) ToPhotoResponse(request *models.Photo) *responses.PhotoResponse {
 	return &responses.PhotoResponse{
-		ID:       request.ID,
-		Title:    request.Title,
-		Caption:  request.Caption,
-		PhotoURL: request.PhotoURL,
-		UserID:   request.UserID,
+		ID:        request.ID,
+		Title:     request.Title,
+		Caption:   request.Caption,
+		PhotoURL:  request.PhotoURL,
+		UserID:    request.UserID,
+		CreatedAt: request.CreatedAt,
+		UpdatedAt: request.UpdatedAt,
 	}
 }
 
@@ -32,14 +34,26 @@ func (m *photoMapper) ToPhotoWithRelationResponse(request *models.Photo) *respon
 		comments = []responses.CommentResponse{}
 	}
 
+	var likes []responses.LikeResponse
+	if request.Likes != nil {
+		for _, like := range request.Likes {
+			likes = append(likes, *NewLikeMapper().ToLikeResponse(&like))
+		}
+	} else {
+		likes = []responses.LikeResponse{}
+	}
+
 	return &responses.PhotoWithRelationResponse{
-		ID:       request.ID,
-		Title:    request.Title,
-		Caption:  request.Caption,
-		PhotoURL: request.PhotoURL,
-		UserID:   request.UserID,
-		User:     *NewUserMapper().ToUserResponse(&request.User),
-		Comments: comments,
+		ID:        request.ID,
+		Title:     request.Title,
+		Caption:   request.Caption,
+		PhotoURL:  request.PhotoURL,
+		UserID:    request.UserID,
+		User:      *NewUserMapper().ToUserResponse(&request.User),
+		Comments:  comments,
+		Likes:     likes,
+		CreatedAt: request.CreatedAt,
+		UpdatedAt: request.UpdatedAt,
 	}
 }
 

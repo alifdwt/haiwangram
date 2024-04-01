@@ -40,7 +40,7 @@ export default function Navbar() {
           px={4}
         >
           <Link href="/" as={Flex} alignItems={"center"} gap={2}>
-            <Box bg={"primary"} borderRadius={"lg"} color={"white"} p={2}>
+            <Box bg={"primary.700"} borderRadius={"lg"} color={"white"} p={2}>
               <PawPrintIcon />
             </Box>
             <Text fontSize="2xl" fontWeight="bold">
@@ -56,7 +56,11 @@ export default function Navbar() {
               alifdwt
             </Button>
             {/* </Box> */}
-            <Button bg={"primary"} color={"white"} _hover={{ bg: "blue.600" }}>
+            <Button
+              bg={"primary.700"}
+              color={"white"}
+              _hover={{ bg: "blue.600" }}
+            >
               Register
             </Button>
           </Flex>
@@ -80,8 +84,8 @@ export default function Navbar() {
                   <Text
                     fontSize="lg"
                     fontWeight="medium"
-                    color={currentUrl === item.href ? "primary" : ""}
-                    _hover={{ color: "primary" }}
+                    color={currentUrl === item.href ? "primary.700" : ""}
+                    _hover={{ color: "primary.700" }}
                     py={2}
                     pl={3}
                     pr={4}

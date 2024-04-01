@@ -5,8 +5,31 @@ import { Outlet } from "react-router-dom";
 import ProfileCard from "./ProfileCard/ProfileCard";
 import Topbar from "./Topbar/Topbar";
 import Messages from "./Sidebar/Sidebar";
+import { useQuery } from "@tanstack/react-query";
+import axiosFetch from "@/config/axiosFetch";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { getUser, logout } from "@/slices/user/userSlice";
 
 export default function Layout() {
+  const { accessToken } = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+
+  const { isError } = useQuery({
+    queryKey: ["user"],
+    queryFn: async () => {
+      const { data } = await axiosFetch.get("/users/", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      dispatch(getUser(data));
+      return data;
+    },
+  });
+
+  if (isError) dispatch(logout());
+
   return (
     <Box
       h="100vh"
