@@ -31,6 +31,7 @@ func (h *Handler) initPhotoGroup(api *gin.Engine) {
 // @Accept json
 // @Produce json
 // @Param limit query int false "Limit"
+// @Param userId query int false "User ID"
 // @Success 200 {object} []responses.PhotoWithRelationResponse
 // @Failure 400 {object} responses.ErrorMessage
 // @Router /photos [get]
@@ -41,13 +42,30 @@ func (h *Handler) handlerGetPhotoAll(c *gin.Context) {
 		return
 	}
 
-	res, err := h.services.Photo.GetPhotoAll(limit)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, errorResponse(err))
-		return
-	}
+	userIdStr := c.Query("userId")
+	if userIdStr == "" {
+		res, err := h.services.Photo.GetPhotoAll(limit)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, errorResponse(err))
+			return
+		}
 
-	c.JSON(http.StatusOK, res)
+		c.JSON(http.StatusOK, res)
+	} else {
+		userId, err := strconv.Atoi(userIdStr)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, errorResponse(err))
+			return
+		}
+
+		res, err := h.services.Photo.GetPhotoByUserId(userId, limit)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, errorResponse(err))
+			return
+		}
+
+		c.JSON(http.StatusOK, res)
+	}
 }
 
 // handlerGetPhotoById function

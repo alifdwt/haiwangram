@@ -181,6 +181,8 @@ definitions:
     type: object
   responses.UserResponse:
     properties:
+      birth_date:
+        type: string
       description:
         type: string
       email:
@@ -432,6 +434,11 @@ paths:
       consumes:
       - application/json
       description: Get all comments from the application
+      parameters:
+      - description: Photo ID
+        in: query
+        name: photoId
+        type: integer
       produces:
       - application/json
       responses:
@@ -562,7 +569,7 @@ paths:
     delete:
       consumes:
       - application/json
-      description: Delete like by id
+      description: Delete like
       parameters:
       - description: like data
         in: body
@@ -622,6 +629,10 @@ paths:
       - description: Limit
         in: query
         name: limit
+        type: integer
+      - description: User ID
+        in: query
+        name: userId
         type: integer
       produces:
       - application/json
@@ -806,6 +817,31 @@ paths:
       security:
       - BearerAuth: []
       summary: Get logged in user
+      tags:
+      - users
+  /users/{username}:
+    get:
+      consumes:
+      - application/json
+      description: Get user by username
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      summary: Get user by username
       tags:
       - users
   /users/random/{count}:

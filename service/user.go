@@ -36,6 +36,17 @@ func (s *userService) GetUserByEmail(email string) (*responses.UserResponse, err
 	return mapper, nil
 }
 
+func (s *userService) GetUserByUsername(username string) (*responses.UserResponse, error) {
+	res, err := s.Repository.GetUserByUsername(username)
+	if err != nil {
+		return nil, err
+	}
+
+	mapper := s.mapper.ToUserResponse(res)
+
+	return mapper, nil
+}
+
 func (s *userService) UpdateUserById(id int, request *user.UpdateUserRequest) (*responses.UserResponse, error) {
 	res, err := s.Repository.UpdateUserById(id, request)
 	if err != nil {

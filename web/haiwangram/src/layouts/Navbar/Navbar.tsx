@@ -1,3 +1,4 @@
+import { RootState } from "@/store";
 import {
   Avatar,
   Divider,
@@ -8,30 +9,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { HomeIcon, SearchIcon, User2Icon, UserIcon } from "lucide-react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
-const navbarList = [
-  {
-    name: "Beranda",
-    path: "/",
-    icon: <HomeIcon />,
-  },
-  {
-    name: "Cari",
-    path: "/search",
-    icon: <SearchIcon />,
-  },
-  {
-    name: "Pengikut",
-    path: "/follow",
-    icon: <User2Icon />,
-  },
-  {
-    name: "Profil",
-    path: "/profile",
-    icon: <UserIcon />,
-  },
-];
 
 const followedPages = [
   {
@@ -47,6 +26,30 @@ const followedPages = [
 export default function Navbar() {
   const navigate = useNavigate();
   const currentUrl = location.pathname;
+  const { user } = useSelector((state: RootState) => state.user);
+
+  const navbarList = [
+    {
+      name: "Beranda",
+      path: "/",
+      icon: <HomeIcon />,
+    },
+    {
+      name: "Cari",
+      path: "/search",
+      icon: <SearchIcon />,
+    },
+    {
+      name: "Pengikut",
+      path: "/follow",
+      icon: <User2Icon />,
+    },
+    {
+      name: "Profil",
+      path: `/${user?.username}`,
+      icon: <UserIcon />,
+    },
+  ];
 
   return (
     <Stack
@@ -60,11 +63,7 @@ export default function Navbar() {
         {navbarList.map((item) => (
           <Link
             key={item.name}
-            onClick={() =>
-              item.name === "Profil"
-                ? navigate(`/${item.path}`)
-                : navigate(item.path)
-            }
+            onClick={() => navigate(item.path)}
             _hover={{
               textDecoration: "none",
               bg: "primary.700",

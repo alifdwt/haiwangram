@@ -55,6 +55,17 @@ func (s *photoService) GetPhotoById(photoId int) (*responses.PhotoWithRelationRe
 	return mapper, nil
 }
 
+func (s *photoService) GetPhotoByUserId(userId int, limit int) (*[]responses.PhotoWithRelationResponse, error) {
+	res, err := s.repository.GetPhotoByUserId(userId, limit)
+	if err != nil {
+		return nil, err
+	}
+
+	mapper := s.mapper.ToPhotoWithRelationResponses(res)
+
+	return &mapper, nil
+}
+
 func (s *photoService) UpdatePhoto(userId int, photoId int, request photo.UpdatePhotoRequest) (*responses.PhotoResponse, error) {
 	res, err := s.repository.UpdatePhoto(userId, photoId, request)
 	if err != nil {

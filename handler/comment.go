@@ -28,17 +28,36 @@ func (h *Handler) initCommentGroup(api *gin.Engine) {
 // @Tags comments
 // @Accept json
 // @Produce json
+// @Param photoId query int false "Photo ID"
 // @Success 200 {object} []responses.CommentWithRelationResponse
 // @Failure 400 {object} responses.ErrorMessage
 // @Router /comments [get]
 func (h *Handler) handlerGetCommentAll(c *gin.Context) {
-	res, err := h.services.Comment.GetCommentAll()
-	if err != nil {
-		c.JSON(http.StatusBadRequest, errorResponse(err))
-		return
+	photoIdStr := c.Query("photoId")
+	if photoIdStr == "" {
+		res, err := h.services.Comment.GetCommentAll()
+		if err != nil {
+			c.JSON(http.StatusBadRequest, errorResponse(err))
+			return
+		}
+
+		c.JSON(http.StatusOK, res)
+	} else {
+		photoId, err := strconv.Atoi(photoIdStr)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, errorResponse(err))
+			return
+		}
+
+		res, err := h.services.Comment.GetCommentByPhotoId(photoId)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, errorResponse(err))
+			return
+		}
+
+		c.JSON(http.StatusOK, res)
 	}
 
-	c.JSON(http.StatusOK, res)
 }
 
 // handlerGetCommentById function

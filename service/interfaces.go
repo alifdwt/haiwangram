@@ -16,16 +16,18 @@ type AuthService interface {
 }
 
 type UserService interface {
+	GetUserByEmail(email string) (*responses.UserResponse, error)
+	GetUserByUsername(username string) (*responses.UserResponse, error)
 	UpdateUserById(id int, request *user.UpdateUserRequest) (*responses.UserResponse, error)
 	DeleteUserById(id int) (*responses.UserResponse, error)
 	GetRandomUser(count int) (*[]responses.UserResponse, error)
-	GetUserByEmail(email string) (*responses.UserResponse, error)
 }
 
 type PhotoService interface {
 	CreatePhoto(userId int, request photo.CreatePhotoRequest) (*responses.PhotoResponse, error)
 	GetPhotoAll(limit int) (*[]responses.PhotoWithRelationResponse, error)
 	GetPhotoById(photoId int) (*responses.PhotoWithRelationResponse, error)
+	GetPhotoByUserId(userId int, limit int) (*[]responses.PhotoWithRelationResponse, error)
 	UpdatePhoto(userId int, photoId int, request photo.UpdatePhotoRequest) (*responses.PhotoResponse, error)
 	DeletePhoto(photoId int) (*responses.PhotoResponse, error)
 }
@@ -34,6 +36,7 @@ type CommentService interface {
 	CreateComment(userId int, request comment.CreateCommentRequest) (*responses.CommentResponse, error)
 	GetCommentAll() (*[]responses.CommentWithRelationResponse, error)
 	GetCommentById(commentId int) (*responses.CommentWithRelationResponse, error)
+	GetCommentByPhotoId(photoId int) (*[]responses.CommentWithRelationResponse, error)
 	UpdateComment(commentId int, request comment.UpdateCommentRequest) (*responses.CommentResponse, error)
 	DeleteComment(commentId int) (*responses.CommentResponse, error)
 }

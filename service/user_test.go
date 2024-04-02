@@ -83,3 +83,45 @@ func TestGetRandomUser(t *testing.T) {
 		require.NotEmpty(t, user)
 	}
 }
+
+func TestGetUserByEmail(t *testing.T) {
+	user1 := createRandomUser(t)
+
+	user2, err := testService.User.GetUserByEmail(user1.Email)
+	require.NoError(t, err)
+	require.NotEmpty(t, user2)
+
+	require.Equal(t, user1.Email, user2.Email)
+	require.Equal(t, user1.Username, user2.Username)
+	require.Equal(t, user1.FullName, user2.FullName)
+	require.Equal(t, user1.BirthDate.Format("2006-01-02"), user2.BirthDate.Format("2006-01-02"))
+	require.Equal(t, user1.ProfileImageURL, user2.ProfileImageURL)
+	require.Equal(t, user1.Description, user2.Description)
+
+	require.Equal(t, user1.ID, user2.ID)
+
+	// Error not found
+	_, err = testService.User.GetUserByEmail(util.RandomEmail(util.RandomOwner()))
+	require.Error(t, err)
+}
+
+func TestGetUserByUsername(t *testing.T) {
+	user1 := createRandomUser(t)
+
+	user2, err := testService.User.GetUserByUsername(user1.Username)
+	require.NoError(t, err)
+	require.NotEmpty(t, user2)
+
+	require.Equal(t, user1.Email, user2.Email)
+	require.Equal(t, user1.Username, user2.Username)
+	require.Equal(t, user1.FullName, user2.FullName)
+	require.Equal(t, user1.BirthDate.Format("2006-01-02"), user2.BirthDate.Format("2006-01-02"))
+	require.Equal(t, user1.ProfileImageURL, user2.ProfileImageURL)
+	require.Equal(t, user1.Description, user2.Description)
+
+	require.Equal(t, user1.ID, user2.ID)
+
+	// Error not found
+	_, err = testService.User.GetUserByUsername(util.RandomUsername(util.RandomOwner()))
+	require.Error(t, err)
+}

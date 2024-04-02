@@ -12,6 +12,7 @@ import Search from "@/pages/Search/Search";
 import Follow from "@/pages/Follow/Follow";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import Profile from "@/pages/Profile/Profile";
 
 export default function Routes() {
   const { accessToken } = useSelector((state: RootState) => state.user);
@@ -23,6 +24,7 @@ export default function Routes() {
           <Route index element={<Home />} />
           <Route path="/search" element={<Search />} />
           <Route path="/follow" element={<Follow />} />
+          <Route path="/:username" element={<Profile />} />
         </Route>
         <Route
           path="/login"

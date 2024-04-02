@@ -12,6 +12,7 @@ func (h *Handler) initUserGroup(api *gin.Engine) {
 	user := api.Group("/api/users")
 
 	user.GET(("/random/:count"), h.handlerGetRandomUser)
+	user.GET("/:username", h.handlerGetUserByUsername)
 
 	user.Use(authMiddleware(h.tokenMaker))
 	user.GET("/", h.handleGetLoggedInUser)
@@ -90,6 +91,28 @@ func (h *Handler) handlerGetRandomUser(c *gin.Context) {
 	}
 
 	res, err := h.services.User.GetRandomUser(count)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, errorResponse(err))
+		return
+	}
+
+	c.JSON(http.StatusOK, res)
+}
+
+// handlerGetUserByUsername function
+// @Summary Get user by username
+// @Description Get user by username
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param username path string true "Username"
+// @Success 200 {object} responses.UserResponse
+// @Failure 400 {object} responses.ErrorMessage
+// @Router /users/{username} [get]
+func (h *Handler) handlerGetUserByUsername(c *gin.Context) {
+	username := c.Param("username")
+
+	res, err := h.services.User.GetUserByUsername(username)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, errorResponse(err))
 		return

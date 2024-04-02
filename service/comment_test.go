@@ -75,6 +75,19 @@ func TestGetCommentById(t *testing.T) {
 	require.Error(t, err)
 }
 
+func TestGetCommentByPhotoId(t *testing.T) {
+	newComment := createRandomComment(t)
+
+	comments, err := testService.Comment.GetCommentByPhotoId(newComment.PhotoID)
+	require.NoError(t, err)
+	require.NotEmpty(t, comments)
+
+	for _, comment := range *comments {
+		require.NotEmpty(t, comment)
+		require.Equal(t, newComment.PhotoID, comment.PhotoID)
+	}
+}
+
 func TestUpdateComment(t *testing.T) {
 	comment1 := createRandomComment(t)
 

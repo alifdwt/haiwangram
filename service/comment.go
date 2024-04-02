@@ -51,6 +51,17 @@ func (s *commentService) GetCommentById(commentId int) (*responses.CommentWithRe
 	return mapper, nil
 }
 
+func (s *commentService) GetCommentByPhotoId(photoId int) (*[]responses.CommentWithRelationResponse, error) {
+	res, err := s.repository.GetCommentByPhotoId(photoId)
+	if err != nil {
+		return nil, err
+	}
+
+	mapper := s.mapper.ToCommentWithRelationResponses(res)
+
+	return &mapper, nil
+}
+
 func (s *commentService) UpdateComment(commentId int, request comment.UpdateCommentRequest) (*responses.CommentResponse, error) {
 	res, err := s.repository.UpdateComment(commentId, request)
 	if err != nil {

@@ -11,8 +11,8 @@ interface Post {
   created_at: string;
   updated_at: string;
   user?: User;
-  comments?: Comment[];
-  likes?: Like[];
+  comments?: Comment[] | null;
+  likes?: Like[] | null;
 }
 
 export default Post;

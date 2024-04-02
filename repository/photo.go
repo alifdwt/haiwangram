@@ -60,6 +60,19 @@ func (r *photoRepository) GetPhotoById(photoId int) (*models.Photo, error) {
 	return &photo, nil
 }
 
+func (r *photoRepository) GetPhotoByUserId(userId int, limit int) (*[]models.Photo, error) {
+	var photos []models.Photo
+
+	db := r.db.Model(&photos)
+
+	result := db.Debug().Preload("User").Preload("Comments").Preload("Likes").Where("user_id = ?", userId).Order("created_at DESC").Limit(limit).Find(&photos)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &photos, nil
+}
+
 func (r *photoRepository) UpdatePhoto(userId int, photoId int, updatedPhoto photo.UpdatePhotoRequest) (*models.Photo, error) {
 	var photo models.Photo
 

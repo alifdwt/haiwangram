@@ -14,10 +14,12 @@ func NewCommentMapper() *commentMapper {
 
 func (m *commentMapper) ToCommentResponse(request *models.Comment) *responses.CommentResponse {
 	return &responses.CommentResponse{
-		ID:      request.ID,
-		Message: request.Message,
-		UserID:  request.UserID,
-		PhotoID: request.PhotoID,
+		ID:        request.ID,
+		Message:   request.Message,
+		UserID:    request.UserID,
+		PhotoID:   request.PhotoID,
+		CreatedAt: request.CreatedAt,
+		UpdatedAt: request.UpdatedAt,
 	}
 }
 
@@ -32,13 +34,15 @@ func (m *commentMapper) ToCommentWithRelationResponse(request *models.Comment) *
 	}
 
 	return &responses.CommentWithRelationResponse{
-		ID:      request.ID,
-		Message: request.Message,
-		UserID:  request.UserID,
-		PhotoID: request.PhotoID,
-		Photo:   *NewPhotoMapper().ToPhotoResponse(&request.Photo),
-		User:    *NewUserMapper().ToUserResponse(&request.User),
-		Replies: commentReplies,
+		ID:        request.ID,
+		Message:   request.Message,
+		UserID:    request.UserID,
+		PhotoID:   request.PhotoID,
+		Photo:     *NewPhotoMapper().ToPhotoResponse(&request.Photo),
+		User:      *NewUserMapper().ToUserResponse(&request.User),
+		Replies:   commentReplies,
+		CreatedAt: request.CreatedAt,
+		UpdatedAt: request.UpdatedAt,
 	}
 }
 

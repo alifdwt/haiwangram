@@ -7,6 +7,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  Link,
   Menu,
   MenuButton,
   MenuDivider,
@@ -37,14 +38,14 @@ export default function Topbar() {
     <>
       <Box px={4} bg={"white"} _dark={{ bg: "gray.700" }}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-          <Flex alignItems={"center"} gap={2}>
+          <Link href="/" display={"flex"} alignItems={"center"} gap={2}>
             <Box bg={"primary.700"} borderRadius={"lg"} color={"white"} p={2}>
               <PawPrintIcon />
             </Box>
             <Text fontSize="2xl" fontWeight="bold">
               HaiwanGram
             </Text>
-          </Flex>
+          </Link>
 
           <InputGroup maxW={"450px"}>
             <InputLeftElement pointerEvents="none" color={"gray.500"}>

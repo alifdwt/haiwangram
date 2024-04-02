@@ -20,7 +20,7 @@ func (m *userMapper) ToUserResponse(request *models.User) *responses.UserRespons
 		FullName:        request.FullName,
 		ProfileImageURL: request.ProfileImageURL,
 		Description:     request.Description,
-		// BirthDate:       request.BirthDate,
+		BirthDate:       request.BirthDate,
 	}
 }
 

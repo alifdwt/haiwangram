@@ -66,6 +66,19 @@ func (r *userRepository) GetUserById(id int) (*models.User, error) {
 	return &user, nil
 }
 
+func (r *userRepository) GetUserByUsername(username string) (*models.User, error) {
+	var user models.User
+
+	db := r.db.Model(user)
+
+	checkUserByUsername := db.Debug().Where("username = ?", username).First(&user)
+	if checkUserByUsername.Error != nil {
+		return nil, checkUserByUsername.Error
+	}
+
+	return &user, nil
+}
+
 func (r *userRepository) UpdateUserById(id int, updatedUser *user.UpdateUserRequest) (*models.User, error) {
 	var user models.User
 

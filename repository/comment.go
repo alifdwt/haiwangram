@@ -59,6 +59,19 @@ func (r *commentRepository) GetCommentById(commentId int) (*models.Comment, erro
 	return &comment, nil
 }
 
+func (r *commentRepository) GetCommentByPhotoId(photoId int) (*[]models.Comment, error) {
+	var comments []models.Comment
+
+	db := r.db.Model(&comments)
+
+	result := db.Debug().Preload("User").Preload("Replies").Where("photo_id = ?", photoId).Find(&comments)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	return &comments, nil
+}
+
 func (r *commentRepository) UpdateComment(commentId int, updatedComment comment.UpdateCommentRequest) (*models.Comment, error) {
 	var comment models.Comment
 

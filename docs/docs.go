@@ -372,6 +372,14 @@ const docTemplate = `{
                     "comments"
                 ],
                 "summary": "Get all comments",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Photo ID",
+                        "name": "photoId",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -613,7 +621,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "Delete like by id",
+                "description": "Delete like",
                 "consumes": [
                     "application/json"
                 ],
@@ -669,6 +677,12 @@ const docTemplate = `{
                         "type": "integer",
                         "description": "Limit",
                         "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "User ID",
+                        "name": "userId",
                         "in": "query"
                     }
                 ],
@@ -993,6 +1007,44 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/users/{username}": {
+            "get": {
+                "description": "Get user by username",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Get user by username",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/responses.UserResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ErrorMessage"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -1273,6 +1325,9 @@ const docTemplate = `{
         "responses.UserResponse": {
             "type": "object",
             "properties": {
+                "birth_date": {
+                    "type": "string"
+                },
                 "description": {
                     "type": "string"
                 },

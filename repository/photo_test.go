@@ -85,6 +85,19 @@ func TestGetPhotoById(t *testing.T) {
 	require.Error(t, err)
 }
 
+func TestGetPhotoByUserId(t *testing.T) {
+	newPhoto := createRandomPhoto(t)
+
+	photos, err := testRepository.Photo.GetPhotoByUserId(newPhoto.UserID, 1)
+	require.NoError(t, err)
+	require.NotEmpty(t, photos)
+
+	for _, photo := range *photos {
+		require.NotEmpty(t, photo)
+		require.Equal(t, newPhoto.UserID, photo.UserID)
+	}
+}
+
 func TestUpdatePhoto(t *testing.T) {
 	photo1 := createRandomPhoto(t)
 
