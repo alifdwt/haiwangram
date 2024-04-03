@@ -10,6 +10,20 @@ definitions:
     - email
     - password
     type: object
+  bookmark.CreateBookmarkRequest:
+    properties:
+      photo_id:
+        type: integer
+    required:
+    - photo_id
+    type: object
+  bookmark.DeleteBookmarkRequest:
+    properties:
+      photo_id:
+        type: integer
+    required:
+    - photo_id
+    type: object
   comment.CreateCommentRequest:
     properties:
       message:
@@ -58,6 +72,15 @@ definitions:
     required:
     - photo_id
     type: object
+  responses.BookmarkResponse:
+    properties:
+      id:
+        type: integer
+      photo_id:
+        type: integer
+      user_id:
+        type: integer
+    type: object
   responses.CommentReplyResponse:
     properties:
       comment_id:
@@ -86,17 +109,23 @@ definitions:
     type: object
   responses.CommentResponse:
     properties:
+      created_at:
+        type: string
       id:
         type: integer
       message:
         type: string
       photo_id:
         type: integer
+      updated_at:
+        type: string
       user_id:
         type: integer
     type: object
   responses.CommentWithRelationResponse:
     properties:
+      created_at:
+        type: string
       id:
         type: integer
       message:
@@ -109,6 +138,8 @@ definitions:
         items:
           $ref: '#/definitions/responses.CommentReplyResponse'
         type: array
+      updated_at:
+        type: string
       user:
         $ref: '#/definitions/responses.UserResponse'
       user_id:
@@ -298,6 +329,81 @@ paths:
       summary: Register to the HaiwanGram
       tags:
       - auth
+  /bookmarks:
+    delete:
+      consumes:
+      - application/json
+      description: Delete bookmark
+      parameters:
+      - description: bookmark data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/bookmark.DeleteBookmarkRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.BookmarkResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Delete bookmark
+      tags:
+      - bookmarks
+    get:
+      consumes:
+      - application/json
+      description: Get logged in user bookmarks
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/responses.BookmarkResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Get user bookmarks
+      tags:
+      - bookmarks
+    post:
+      consumes:
+      - application/json
+      description: Create bookmark
+      parameters:
+      - description: bookmark data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/bookmark.CreateBookmarkRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/responses.BookmarkResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Create bookmark
+      tags:
+      - bookmarks
   /comment-replies:
     get:
       consumes:

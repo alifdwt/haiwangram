@@ -6,6 +6,7 @@ type Mapper struct {
 	CommentMapper      CommentMapping
 	CommentReplyMapper CommentReplyMapping
 	LikeMapper         LikeMapping
+	BookmarkMapper     BookmarkMapping
 }
 
 func NewMapper() *Mapper {
@@ -15,5 +16,6 @@ func NewMapper() *Mapper {
 		CommentMapper:      NewCommentMapper(),
 		CommentReplyMapper: NewCommentReplyMapper(),
 		LikeMapper:         NewLikeMapper(),
+		BookmarkMapper:     NewBookmarkMapper(),
 	}
 }

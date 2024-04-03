@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/alifdwt/haiwangram/domain/requests/auth"
+	"github.com/alifdwt/haiwangram/domain/requests/bookmark"
 	"github.com/alifdwt/haiwangram/domain/requests/comment"
 	commentreply "github.com/alifdwt/haiwangram/domain/requests/comment_reply"
 	"github.com/alifdwt/haiwangram/domain/requests/like"
@@ -53,4 +54,11 @@ type LikeService interface {
 	CreateLike(userId int, request like.CreateLikeRequest) (*responses.LikeResponse, error)
 	GetLikeById(likeId int) (*responses.LikeResponse, error)
 	DeleteLike(photoId int, userId int) (*responses.LikeResponse, error)
+}
+
+type BookmarkService interface {
+	CreateBookmark(userId int, request bookmark.CreateBookmarkRequest) (*responses.BookmarkResponse, error)
+	GetBookmarkById(bookmarkId int) (*responses.BookmarkWithRelationResponse, error)
+	GetBookmarkByUserId(userId int) (*[]responses.BookmarkWithRelationResponse, error)
+	DeleteBookmark(photoId int, userId int) (*responses.BookmarkResponse, error)
 }

@@ -13,6 +13,7 @@ func RunMigration(db *gorm.DB) error {
 		&models.CommentReply{},
 		&models.Like{},
 		&models.SocialMedia{},
+		&models.Bookmark{},
 	)
 
 	if err != nil {
@@ -30,6 +31,7 @@ func DropTable(db *gorm.DB) error {
 		&models.CommentReply{},
 		&models.Like{},
 		&models.SocialMedia{},
+		&models.Bookmark{},
 	)
 
 	if err != nil {

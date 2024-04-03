@@ -2,6 +2,7 @@ package repository
 
 import (
 	"github.com/alifdwt/haiwangram/domain/requests/auth"
+	"github.com/alifdwt/haiwangram/domain/requests/bookmark"
 	"github.com/alifdwt/haiwangram/domain/requests/comment"
 	commentreply "github.com/alifdwt/haiwangram/domain/requests/comment_reply"
 	"github.com/alifdwt/haiwangram/domain/requests/like"
@@ -51,4 +52,11 @@ type LikeRepository interface {
 	// GetLikeAll() (*[]models.Like, error)
 	GetLikeById(likeId int) (*models.Like, error)
 	DeleteLike(photoId int, userId int) (*models.Like, error)
+}
+
+type BookmarkRepository interface {
+	CreateBookmark(userId int, request bookmark.CreateBookmarkRequest) (*models.Bookmark, error)
+	GetBookmarkByUserId(userId int) (*[]models.Bookmark, error)
+	GetBookmarkById(bookmarkId int) (*models.Bookmark, error)
+	DeleteBookmark(photoId int, userId int) (*models.Bookmark, error)
 }

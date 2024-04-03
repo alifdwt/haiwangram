@@ -33,3 +33,9 @@ type LikeMapping interface {
 	ToLikeWithRelationResponse(request *models.Like) *responses.LikeWithRelationResponse
 	ToLikeWithRelationResponses(requests *[]models.Like) []responses.LikeWithRelationResponse
 }
+
+type BookmarkMapping interface {
+	ToBookmarkResponse(request *models.Bookmark) *responses.BookmarkResponse
+	ToBookmarkWithRelationResponse(request *models.Bookmark) *responses.BookmarkWithRelationResponse
+	ToBookmarkWithRelationResponses(requests *[]models.Bookmark) []responses.BookmarkWithRelationResponse
+}
