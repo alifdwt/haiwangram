@@ -5,16 +5,12 @@ import ProfileTopBar from "./components/ProfileTopBar";
 import User from "@/interface/User";
 import ProfileHeader from "./components/ProfileHeader";
 import ProfileTabs from "./components/ProfileTabs";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import axiosFetch from "@/config/axiosFetch";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/store";
-import { getUserPosts } from "@/slices/userPost/userPostSlice";
 
 export default function Profile() {
-  const dispatch = useDispatch();
-  const { userPosts } = useSelector((state: RootState) => state.userPost);
   const { username } = useParams();
+  const { userPosts } = useSelector((state: RootState) => state.userPost);
   const { data: fetchedUserData, isLoading: isLoadingUserData } =
     useFetchWithId({
       queryKey: "user",
@@ -23,25 +19,6 @@ export default function Profile() {
     });
 
   const userData: User = fetchedUserData;
-
-  // @ts-expect-error next-line
-  const { fetchNextPage } = useInfiniteQuery({
-    queryKey: ["userPosts", username],
-    queryFn: async ({ pageParam = 1 }) => {
-      const { data } = await axiosFetch.get(
-        `/photos/?limit=${pageParam * 4}&userId=${userData.id}`
-      );
-      dispatch(getUserPosts(data));
-      return data;
-    },
-    getNextPageParam: (_, pages) => {
-      return pages.length + 1;
-    },
-    initialData: {
-      pages: [userPosts],
-      pageParams: [1],
-    },
-  });
 
   if (isLoadingUserData) {
     return (
@@ -58,7 +35,7 @@ export default function Profile() {
         postCount={userPosts.length}
       />
       <ProfileHeader user={userData} />
-      <ProfileTabs posts={userPosts} postsNextPageButton={fetchNextPage} />
+      <ProfileTabs userData={userData} userPosts={userPosts} />
     </Box>
   );
 }

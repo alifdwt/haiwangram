@@ -1,3 +1,4 @@
+import Bookmark from "./Bookmark";
 import Comment from "./Comment";
 import Like from "./Like";
 import User from "./User";
@@ -13,6 +14,7 @@ interface Post {
   user?: User;
   comments?: Comment[] | null;
   likes?: Like[] | null;
+  bookmarks?: Bookmark[] | null;
 }
 
 export default Post;

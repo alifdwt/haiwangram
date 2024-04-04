@@ -39,6 +39,13 @@ func (m *photoMapper) ToPhotoWithRelationResponse(request *models.Photo) *respon
 		}
 	}
 
+	var bookmarks []responses.BookmarkResponse
+	if request.Bookmarks != nil {
+		for _, bookmark := range request.Bookmarks {
+			bookmarks = append(bookmarks, *NewBookmarkMapper().ToBookmarkResponse(&bookmark))
+		}
+	}
+
 	return &responses.PhotoWithRelationResponse{
 		ID:        request.ID,
 		Title:     request.Title,
@@ -48,6 +55,7 @@ func (m *photoMapper) ToPhotoWithRelationResponse(request *models.Photo) *respon
 		User:      *NewUserMapper().ToUserResponse(&request.User),
 		Comments:  comments,
 		Likes:     likes,
+		Bookmarks: bookmarks,
 		CreatedAt: request.CreatedAt,
 		UpdatedAt: request.UpdatedAt,
 	}

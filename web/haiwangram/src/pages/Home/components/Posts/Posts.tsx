@@ -13,12 +13,13 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { BookmarkIcon, EllipsisVerticalIcon } from "lucide-react";
+import { EllipsisVerticalIcon } from "lucide-react";
 import React, { LegacyRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import LikeButton from "./components/LikeButton";
 import CommentButton from "./components/CommentButton";
 import Post from "@/interface/Post";
+import BookmarkButton from "./components/BookmarkButton";
 
 function PostContainer({
   children,
@@ -83,13 +84,21 @@ function PostBody({
   title,
   caption,
   photo_url,
+  post_id,
 }: {
   title: string;
   caption: string;
   photo_url: string;
+  post_id: number;
 }) {
   return (
-    <Flex flexDir={"column"} gap={4}>
+    <Flex
+      flexDir={"column"}
+      gap={4}
+      as={Link}
+      href={`/posts/${post_id}`}
+      _hover={{ textDecoration: "none" }}
+    >
       {/* <Box> */}
       <Image
         src={photo_url}
@@ -97,6 +106,7 @@ function PostBody({
         maxH={"300px"}
         objectFit={"cover"}
         rounded={"xl"}
+        alt={title}
       />
       {/* </Box> */}
       <Text fontWeight={"bold"} textTransform={"capitalize"}>
@@ -111,22 +121,26 @@ function PostFooter({
   postId,
   likeCount,
   isLiked,
+  isBookmarked,
   post,
 }: {
   postId: number;
   likeCount: number;
   isLiked: boolean;
+  isBookmarked: boolean;
   post: Post;
 }) {
   return (
     <Flex justifyContent={"space-between"}>
       <Flex>
         <LikeButton likeCount={likeCount} isLiked={isLiked} postId={postId} />
-        <CommentButton post={post} isLiked={isLiked} />
+        <CommentButton
+          post={post}
+          isLiked={isLiked}
+          isBookmarked={isBookmarked}
+        />
       </Flex>
-      <Button variant={"ghost"} color={"gray"}>
-        <BookmarkIcon />
-      </Button>
+      <BookmarkButton isBookmarked={isBookmarked} postId={postId} />
     </Flex>
   );
 }
@@ -181,6 +195,9 @@ export default function Posts() {
     <>
       {posts.map((post) => {
         const isLiked = post.likes?.some((like) => like.user_id === userId);
+        const isBookmarked = post.bookmarks?.some(
+          (bookmark) => bookmark.user_id === userId
+        );
         // if (i === _posts.length - 1)
         //   return (
         //     <PostContainer key={post.id} ref={ref}>
@@ -216,10 +233,12 @@ export default function Posts() {
               title={post.title}
               caption={post.caption}
               photo_url={post.photo_url}
+              post_id={post.id}
             />
             <PostFooter
               postId={post.id}
               isLiked={isLiked!}
+              isBookmarked={isBookmarked!}
               likeCount={post.likes?.length as number}
               post={post}
             />

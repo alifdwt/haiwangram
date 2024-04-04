@@ -39,7 +39,7 @@ func (r *photoRepository) GetPhotoAll(limit int) (*[]models.Photo, error) {
 
 	db := r.db.Model(&photos)
 
-	result := db.Debug().Preload("User").Preload("Comments").Preload("Likes").Order("created_at DESC").Limit(limit).Find(&photos)
+	result := db.Debug().Preload("User").Preload("Comments").Preload("Likes").Preload("Bookmarks").Order("created_at DESC").Limit(limit).Find(&photos)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -52,7 +52,7 @@ func (r *photoRepository) GetPhotoById(photoId int) (*models.Photo, error) {
 
 	db := r.db.Model(&photo)
 
-	result := db.Debug().Preload("User").Preload("Comments").Preload("Likes").Where("id = ?", photoId).First(&photo)
+	result := db.Debug().Preload("User").Preload("Comments").Preload("Likes").Preload("Bookmarks").Where("id = ?", photoId).First(&photo)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -65,7 +65,7 @@ func (r *photoRepository) GetPhotoByUserId(userId int, limit int) (*[]models.Pho
 
 	db := r.db.Model(&photos)
 
-	result := db.Debug().Preload("User").Preload("Comments").Preload("Likes").Where("user_id = ?", userId).Order("created_at DESC").Limit(limit).Find(&photos)
+	result := db.Debug().Preload("User").Preload("Comments").Preload("Likes").Preload("Bookmarks").Where("user_id = ?", userId).Order("created_at DESC").Limit(limit).Find(&photos)
 	if result.Error != nil {
 		return nil, result.Error
 	}

@@ -1443,6 +1443,12 @@ const docTemplate = `{
         "responses.PhotoWithRelationResponse": {
             "type": "object",
             "properties": {
+                "bookmarks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/responses.BookmarkResponse"
+                    }
+                },
                 "caption": {
                     "type": "string"
                 },

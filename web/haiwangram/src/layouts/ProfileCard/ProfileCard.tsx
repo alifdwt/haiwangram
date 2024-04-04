@@ -1,5 +1,5 @@
 import { RootState } from "@/store";
-import { Avatar, Box, Flex, Text } from "@chakra-ui/react";
+import { Avatar, Box, Flex, Link, Text } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 
 const userData = {
@@ -20,7 +20,7 @@ export default function ProfileCard() {
       mb={4}
     >
       <Box bg={"gray.100"} _dark={{ bg: "gray.600" }} borderRadius={"lg"} p={4}>
-        <Flex alignItems={"center"}>
+        <Flex alignItems={"center"} as={Link} href={`/${user?.username}`}>
           <Avatar
             name={user?.full_name}
             src={user?.profile_image_url}

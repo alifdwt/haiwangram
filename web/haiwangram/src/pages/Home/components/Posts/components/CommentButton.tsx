@@ -33,15 +33,25 @@ import useCommentButton from "./hooks/useCommentButton";
 import axiosFetch from "@/config/axiosFetch";
 import { useQuery } from "@tanstack/react-query";
 import Comment from "@/interface/Comment";
+import useBookmarkButton from "./hooks/useBookmarkButton";
 
 type CommentButtonProps = {
   post: Post;
   isLiked: boolean;
+  isBookmarked: boolean;
 };
 
-export default function CommentButton({ post, isLiked }: CommentButtonProps) {
+export default function CommentButton({
+  post,
+  isLiked,
+  isBookmarked,
+}: CommentButtonProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { handleLike } = useLikeButton({ isLiked, postId: post.id });
+  const { handleBookmark } = useBookmarkButton({
+    isBookmarked,
+    postId: post.id,
+  });
   const { comment, handleCommentChange, handleSubmit, mutation } =
     useCommentButton({ postId: post.id });
 
@@ -152,8 +162,16 @@ export default function CommentButton({ post, isLiked }: CommentButtonProps) {
                         <Share2Icon />
                       </Button>
                     </ButtonGroup>
-                    <Button variant={"ghost"}>
-                      <BookmarkIcon />
+                    <Button
+                      variant={"ghost"}
+                      color={isBookmarked ? "primary.700" : ""}
+                      onClick={handleBookmark}
+                    >
+                      {isBookmarked ? (
+                        <BookmarkIcon fill="#1b79e5" />
+                      ) : (
+                        <BookmarkIcon />
+                      )}
                     </Button>
                   </Flex>
                   <Box p={2}>

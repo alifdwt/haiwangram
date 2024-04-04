@@ -38,7 +38,13 @@ export default function Topbar() {
     <>
       <Box px={4} bg={"white"} _dark={{ bg: "gray.700" }}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-          <Link href="/" display={"flex"} alignItems={"center"} gap={2}>
+          <Link
+            href="/"
+            display={"flex"}
+            alignItems={"center"}
+            gap={2}
+            _hover={{ textDecoration: "none" }}
+          >
             <Box bg={"primary.700"} borderRadius={"lg"} color={"white"} p={2}>
               <PawPrintIcon />
             </Box>
