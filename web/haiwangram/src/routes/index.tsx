@@ -13,7 +13,7 @@ import Follow from "@/pages/Follow/Follow";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import Profile from "@/pages/Profile/Profile";
-import Post from "@/pages/Post/Post";
+import PostPage from "@/pages/Post/PostPage";
 
 export default function Routes() {
   const { accessToken } = useSelector((state: RootState) => state.user);
@@ -26,7 +26,7 @@ export default function Routes() {
           <Route path="/search" element={<Search />} />
           <Route path="/follow" element={<Follow />} />
           <Route path="/:username" element={<Profile />} />
-          <Route path="/posts/:postId" element={<Post />} />
+          <Route path="/posts/:postId" element={<PostPage />} />
         </Route>
         <Route
           path="/login"
