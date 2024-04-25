@@ -9,6 +9,7 @@ type Repositories struct {
 	CommentReply CommentReplyRepository
 	Like         LikeRepository
 	Bookmark     BookmarkRepository
+	Follow       FollowRepository
 }
 
 func NewRepository(db *gorm.DB) *Repositories {
@@ -19,5 +20,6 @@ func NewRepository(db *gorm.DB) *Repositories {
 		CommentReply: NewCommentReplyRepository(db),
 		Like:         NewLikeRepository(db),
 		Bookmark:     NewBookmarkRepository(db),
+		Follow:       NewFollowRepository(db),
 	}
 }

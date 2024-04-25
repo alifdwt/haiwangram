@@ -5,6 +5,7 @@ import (
 	"github.com/alifdwt/haiwangram/domain/requests/bookmark"
 	"github.com/alifdwt/haiwangram/domain/requests/comment"
 	commentreply "github.com/alifdwt/haiwangram/domain/requests/comment_reply"
+	"github.com/alifdwt/haiwangram/domain/requests/follow"
 	"github.com/alifdwt/haiwangram/domain/requests/like"
 	"github.com/alifdwt/haiwangram/domain/requests/photo"
 	"github.com/alifdwt/haiwangram/domain/requests/user"
@@ -59,4 +60,11 @@ type BookmarkRepository interface {
 	GetBookmarkByUserId(userId int) (*[]models.Bookmark, error)
 	GetBookmarkById(bookmarkId int) (*models.Bookmark, error)
 	DeleteBookmark(photoId int, userId int) (*models.Bookmark, error)
+}
+
+type FollowRepository interface {
+	CreateFollow(userId int, request follow.CreateFollowRequest) (*models.Follow, error)
+	GetFollowedByUserId(userId int) (*[]models.Follow, error)
+	GetFollowerByUserId(userId int) (*[]models.Follow, error)
+	DeleteFollow(userId int, request follow.DeleteFollowRequest) (*models.Follow, error)
 }

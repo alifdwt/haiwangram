@@ -1,6 +1,9 @@
 test:
 	go test -v -cover ./...
 
+swag:
+	swag init
+
 server:
 	go run main.go
 

@@ -5,10 +5,12 @@ import (
 	"github.com/alifdwt/haiwangram/domain/requests/bookmark"
 	"github.com/alifdwt/haiwangram/domain/requests/comment"
 	commentreply "github.com/alifdwt/haiwangram/domain/requests/comment_reply"
+	"github.com/alifdwt/haiwangram/domain/requests/follow"
 	"github.com/alifdwt/haiwangram/domain/requests/like"
 	"github.com/alifdwt/haiwangram/domain/requests/photo"
 	"github.com/alifdwt/haiwangram/domain/requests/user"
 	"github.com/alifdwt/haiwangram/domain/responses"
+	"github.com/alifdwt/haiwangram/models"
 )
 
 type AuthService interface {
@@ -61,4 +63,11 @@ type BookmarkService interface {
 	GetBookmarkById(bookmarkId int) (*responses.BookmarkWithRelationResponse, error)
 	GetBookmarkByUserId(userId int) (*[]responses.BookmarkWithRelationResponse, error)
 	DeleteBookmark(photoId int, userId int) (*responses.BookmarkResponse, error)
+}
+
+type FollowService interface {
+	CreateFollow(userId int, request follow.CreateFollowRequest) (*models.Follow, error)
+	GetFollowedByUserId(userId int) (*[]models.Follow, error)
+	GetFollowerByUserId(userId int) (*[]models.Follow, error)
+	DeleteFollow(userId int, request follow.DeleteFollowRequest) (*models.Follow, error)
 }

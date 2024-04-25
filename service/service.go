@@ -17,6 +17,7 @@ type Store interface {
 	CommentReplyService
 	LikeService
 	BookmarkService
+	FollowService
 }
 
 type Service struct {
@@ -27,6 +28,7 @@ type Service struct {
 	CommentReply CommentReplyService
 	Like         LikeService
 	Bookmark     BookmarkService
+	Follow       FollowService
 }
 
 type Deps struct {
@@ -47,5 +49,6 @@ func NewService(deps Deps) *Service {
 		CommentReply: NewCommentReplyService(deps.Repository.CommentReply, deps.Logger, deps.Mapper.CommentReplyMapper),
 		Like:         NewLikeService(deps.Repository.Like, deps.Logger, deps.Mapper.LikeMapper),
 		Bookmark:     NewBookmarkService(deps.Repository.Bookmark, deps.Logger, deps.Mapper.BookmarkMapper),
+		Follow:       NewFollowService(deps.Repository.Follow, deps.Logger),
 	}
 }

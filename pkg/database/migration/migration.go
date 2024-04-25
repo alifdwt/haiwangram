@@ -14,6 +14,7 @@ func RunMigration(db *gorm.DB) error {
 		&models.Like{},
 		&models.SocialMedia{},
 		&models.Bookmark{},
+		&models.Follow{},
 	)
 
 	if err != nil {

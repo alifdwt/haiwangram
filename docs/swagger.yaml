@@ -58,6 +58,20 @@ definitions:
     required:
     - message
     type: object
+  follow.CreateFollowRequest:
+    properties:
+      user_id:
+        type: integer
+    required:
+    - user_id
+    type: object
+  follow.DeleteFollowRequest:
+    properties:
+      user_id:
+        type: integer
+    required:
+    - user_id
+    type: object
   like.CreateLikeRequest:
     properties:
       photo_id:
@@ -71,6 +85,165 @@ definitions:
         type: integer
     required:
     - photo_id
+    type: object
+  models.Bookmark:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      photo:
+        $ref: '#/definitions/models.Photo'
+      photo_id:
+        type: integer
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      user_id:
+        type: integer
+    type: object
+  models.Comment:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      message:
+        type: string
+      photo:
+        $ref: '#/definitions/models.Photo'
+      photo_id:
+        type: integer
+      replies:
+        items:
+          $ref: '#/definitions/models.CommentReply'
+        type: array
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      user_id:
+        type: integer
+    type: object
+  models.CommentReply:
+    properties:
+      comment:
+        $ref: '#/definitions/models.Comment'
+      comment_id:
+        type: integer
+      created_at:
+        type: string
+      id:
+        type: integer
+      message:
+        type: string
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      user_id:
+        type: integer
+    type: object
+  models.Follow:
+    properties:
+      created_at:
+        type: string
+      followed:
+        $ref: '#/definitions/models.User'
+      followed_id:
+        type: integer
+      follower:
+        $ref: '#/definitions/models.User'
+      follower_id:
+        type: integer
+      id:
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  models.Like:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      photo:
+        $ref: '#/definitions/models.Photo'
+      photo_id:
+        type: integer
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      user_id:
+        type: integer
+    type: object
+  models.Photo:
+    properties:
+      bookmarks:
+        items:
+          $ref: '#/definitions/models.Bookmark'
+        type: array
+      caption:
+        type: string
+      comments:
+        items:
+          $ref: '#/definitions/models.Comment'
+        type: array
+      created_at:
+        type: string
+      id:
+        type: integer
+      likes:
+        items:
+          $ref: '#/definitions/models.Like'
+        type: array
+      photo_url:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+      user:
+        $ref: '#/definitions/models.User'
+      user_id:
+        type: integer
+    type: object
+  models.User:
+    properties:
+      birth_date:
+        type: string
+      commentReplies:
+        items:
+          $ref: '#/definitions/models.CommentReply'
+        type: array
+      comments:
+        items:
+          $ref: '#/definitions/models.Comment'
+        type: array
+      created_at:
+        type: string
+      description:
+        type: string
+      email:
+        type: string
+      full_name:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      photos:
+        items:
+          $ref: '#/definitions/models.Photo'
+        type: array
+      profile_image_url:
+        type: string
+      updated_at:
+        type: string
+      username:
+        type: string
     type: object
   responses.BookmarkResponse:
     properties:
@@ -675,6 +848,103 @@ paths:
       summary: Update comment
       tags:
       - comments
+  /follows:
+    delete:
+      consumes:
+      - application/json
+      description: Delete follow
+      parameters:
+      - description: follow data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/follow.DeleteFollowRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Follow'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Delete follow
+      tags:
+      - follows
+    post:
+      consumes:
+      - application/json
+      description: Create follow on logged in user
+      parameters:
+      - description: follow data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/follow.CreateFollowRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Follow'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Create follow
+      tags:
+      - follows
+  /follows/followed:
+    get:
+      consumes:
+      - application/json
+      description: Get follow by user id
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Follow'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Get follow by user id
+      tags:
+      - follows
+  /follows/follower:
+    get:
+      consumes:
+      - application/json
+      description: Get follower by user id
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Follow'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/responses.ErrorMessage'
+      security:
+      - BearerAuth: []
+      summary: Get follower by user id
+      tags:
+      - follows
   /likes:
     delete:
       consumes:
