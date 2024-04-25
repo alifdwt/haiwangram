@@ -21,7 +21,7 @@ import CommentButton from "./components/CommentButton";
 import Post from "@/interface/Post";
 import BookmarkButton from "./components/BookmarkButton";
 
-function PostContainer({
+export function PostContainer({
   children,
   ref,
 }: {
@@ -43,7 +43,7 @@ function PostContainer({
   );
 }
 
-function PostHeader({
+export function PostHeader({
   profile_image_url,
   full_name,
   username,
@@ -80,7 +80,7 @@ function PostHeader({
   );
 }
 
-function PostBody({
+export function PostBody({
   title,
   caption,
   photo_url,
@@ -117,7 +117,7 @@ function PostBody({
   );
 }
 
-function PostFooter({
+export function PostFooter({
   postId,
   likeCount,
   isLiked,

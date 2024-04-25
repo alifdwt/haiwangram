@@ -8,7 +8,13 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { HomeIcon, SearchIcon, User2Icon, UserIcon } from "lucide-react";
+import {
+  BookmarkIcon,
+  HomeIcon,
+  SearchIcon,
+  User2Icon,
+  UserIcon,
+} from "lucide-react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -48,6 +54,11 @@ export default function Navbar() {
       name: "Profil",
       path: `/${user?.username}`,
       icon: <UserIcon />,
+    },
+    {
+      name: "Bookmark",
+      path: "/bookmark",
+      icon: <BookmarkIcon />,
     },
   ];
 

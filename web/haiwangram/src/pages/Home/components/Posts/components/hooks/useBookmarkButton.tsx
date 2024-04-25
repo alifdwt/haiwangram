@@ -48,6 +48,7 @@ export default function useBookmarkButton({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({ queryKey: ["post", postId] });
       toast("Success", "Berhasil menghapus bookmark", "success");
     },
     onError: () => {

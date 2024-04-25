@@ -4,6 +4,7 @@ import UserReducer from "@/slices/user/userSlice";
 import PostReducer from "@/slices/posts/postSlice";
 import storage from "redux-persist/lib/storage";
 import UserPostReducer from "@/slices/userPost/userPostSlice";
+import BookmarkReducer from "@/slices/bookmark/bookmarkSlice";
 
 const persistConfig = {
   key: "root",
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   user: UserReducer,
   post: PostReducer,
   userPost: UserPostReducer,
+  bookmark: BookmarkReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

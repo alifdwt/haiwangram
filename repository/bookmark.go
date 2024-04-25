@@ -37,7 +37,7 @@ func (r *bookmarkRepository) GetBookmarkById(bookmarkId int) (*models.Bookmark, 
 
 	db := r.db.Model(&bookmarkModel)
 
-	result := db.Debug().Preload("User").Preload("Photo").Where("id = ?", bookmarkId).First(&bookmarkModel)
+	result := db.Debug().Preload("Photo.User").Where("id = ?", bookmarkId).First(&bookmarkModel)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -50,7 +50,7 @@ func (r *bookmarkRepository) GetBookmarkByUserId(userId int) (*[]models.Bookmark
 
 	db := r.db.Model(&bookmarkModel)
 
-	result := db.Debug().Preload("User").Preload("Photo").Where("user_id = ?", userId).Find(&bookmarkModel)
+	result := db.Debug().Preload("Photo.User").Where("user_id = ?", userId).Find(&bookmarkModel)
 	if result.Error != nil {
 		return nil, result.Error
 	}

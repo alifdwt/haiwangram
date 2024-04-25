@@ -25,8 +25,8 @@ func (m *bookmarkMapper) ToBookmarkWithRelationResponse(request *models.Bookmark
 		ID:      request.ID,
 		PhotoID: request.PhotoID,
 		UserID:  request.UserID,
-		Photo:   *NewPhotoMapper().ToPhotoResponse(&request.Photo),
-		User:    *NewUserMapper().ToUserResponse(&request.User),
+		Photo:   *NewPhotoMapper().ToPhotoWithRelationResponse(&request.Photo),
+		// User:    *NewUserMapper().ToUserResponse(&request.User),
 	}
 }
 
